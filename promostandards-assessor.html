@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PromoStandards Data Assessor — OrderMyGear OneSource</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --omg-green:#4AD000;--omg-green-ink:#09450D;--omg-slate:#212530;
+  --omg-gray:#363A47;--omg-body:#41475A;--omg-mid:#909297;
+  --omg-white:#FFFFFF;--omg-off:#F4F5F6;--omg-light:#E6E7E8;
+  --omg-coral:#FD7E61;--omg-coral-ink:#C0492F;--omg-coral-pale:#F9EBE8;
+  --omg-amber:#E3922B;--omg-amber-ink:#8A6212;--omg-amber-pale:#FBF1D8;
+  --omg-blue:#293480;--omg-blue-pale:#D3D7E5;
+  --omg-green-pale:#E0F4D4;--omg-purple:#6868DD;--omg-chartreuse:#B3E354;
+  --r-card:12px;--r-pill:40px;--r-sm:8px;
+  --shadow-card:0 2px 8px rgba(20,24,33,.08);
+  --shadow-win:0 18px 44px rgba(20,24,33,.20);
+}
+body{font-family:'Poppins',system-ui,sans-serif;background:var(--omg-off);color:var(--omg-slate);font-size:14px;min-height:100vh;-webkit-font-smoothing:antialiased}
+.app{max-width:980px;margin:0 auto;padding:28px 22px}
+
+/* Header */
+.header{background:var(--omg-slate);border-radius:var(--r-card);padding:32px 36px;margin-bottom:22px;position:relative;overflow:hidden}
+.header-topo{position:absolute;inset:0;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cpath d='M-100 200 Q100 120 300 200 Q500 280 700 200 Q900 120 1100 200' fill='none' stroke='%234AD000' stroke-width='1.5'/%3E%3Cpath d='M-100 250 Q150 170 350 250 Q550 330 750 250 Q950 170 1150 250' fill='none' stroke='%234AD000' stroke-width='1.5'/%3E%3Cpath d='M-100 150 Q100 70 300 150 Q500 230 700 150 Q900 70 1100 150' fill='none' stroke='%234AD000' stroke-width='1.5'/%3E%3C/svg%3E");background-size:cover;pointer-events:none}
+.header-inner{position:relative}
+.header-eyebrow{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--omg-green);margin-bottom:8px}
+.header h1{font-size:26px;font-weight:700;color:#fff;line-height:1.15;letter-spacing:-.02em;margin-bottom:6px}
+.header p{font-size:13px;color:#909297;max-width:560px;line-height:1.6}
+.header-rule{width:40px;height:3px;background:var(--omg-green);border-radius:2px;margin-bottom:14px}
+
+/* Impact banner */
+.impact-banner{background:var(--omg-green);border-radius:var(--r-card);padding:20px 24px;margin-bottom:22px;display:flex;align-items:flex-start;gap:16px}
+.impact-banner-icon{width:44px;height:44px;background:rgba(33,37,48,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.impact-banner-icon svg{stroke:var(--omg-slate);stroke-width:2;fill:none}
+.impact-banner-text strong{display:block;font-size:15px;font-weight:700;color:var(--omg-slate);letter-spacing:-.01em;margin-bottom:4px}
+.impact-banner-text p{font-size:12px;color:rgba(33,37,48,.75);line-height:1.55}
+.impact-channels{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.impact-channel{font-size:10px;font-weight:700;padding:3px 10px;border-radius:40px;background:rgba(33,37,48,.12);color:var(--omg-slate);letter-spacing:.04em}
+
+/* Upload */
+.upload-zone{border:2px dashed var(--omg-light);border-radius:var(--r-card);background:var(--omg-white);padding:40px 28px;text-align:center;cursor:pointer;transition:all 150ms ease;margin-bottom:22px}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--omg-green);background:var(--omg-green-pale)}
+.upload-zone.drag{border-style:solid}
+.upload-icon{width:44px;height:44px;margin:0 auto 12px;opacity:.4}
+.upload-title{font-size:14px;font-weight:600;color:var(--omg-slate);margin-bottom:4px}
+.upload-sub{font-size:12px;color:#909297}
+.upload-formats{display:flex;justify-content:center;gap:8px;margin-top:14px;flex-wrap:wrap}
+.fmt-pill{font-size:10px;font-weight:700;letter-spacing:.08em;padding:3px 10px;border-radius:40px;background:var(--omg-off);border:1px solid var(--omg-light);color:#909297}
+
+/* Status */
+.status-bar{background:#fff;border:1px solid var(--omg-light);border-radius:var(--r-card);padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;color:var(--omg-slate)}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.status-dot.processing{background:var(--omg-amber);animation:pulse 1s infinite}
+.status-dot.done{background:var(--omg-green)}
+.status-dot.error{background:var(--omg-coral)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Score card */
+.score-card{background:var(--omg-slate);border-radius:var(--r-card);padding:24px 28px;margin-bottom:22px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
+.score-circle{width:96px;height:96px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid}
+.score-number{font-size:32px;font-weight:700;line-height:1}
+.score-grade{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:4px}
+.score-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:-.01em}
+.score-note{font-size:12px;color:#909297}
+.score-dims{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}
+.dim-block{background:rgba(255,255,255,.06);border-radius:8px;padding:10px 8px;text-align:center}
+.dim-val{font-size:16px;font-weight:700;margin-bottom:2px}
+.dim-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#909297;line-height:1.3}
+.progress-bar{height:4px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin-top:6px}
+.progress-fill{height:100%;border-radius:3px}
+
+/* Visibility impact */
+.visibility-panel{background:#fff;border:1px solid var(--omg-light);border-radius:var(--r-card);overflow:hidden;margin-bottom:22px;box-shadow:var(--shadow-card)}
+.visibility-header{background:var(--omg-slate);padding:14px 20px;display:flex;align-items:center;gap:10px;border-bottom:2px solid var(--omg-green)}
+.visibility-header h3{font-size:12px;font-weight:700;color:#fff;letter-spacing:.06em;text-transform:uppercase}
+.channel-impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.channel-impact{padding:16px 18px;border-right:1px solid var(--omg-light);border-bottom:1px solid var(--omg-light);position:relative}
+.channel-impact:nth-child(3n){border-right:none}
+.channel-impact:nth-child(n+4){border-bottom:none}
+.channel-impact-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.channel-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.channel-name{font-size:11px;font-weight:700;color:var(--omg-gray)}
+.channel-blocked{font-size:10px;color:var(--omg-coral-ink);font-weight:600;margin-bottom:4px}
+.channel-why{font-size:10px;color:var(--omg-mid);line-height:1.5}
+.channel-ok .channel-blocked{color:var(--omg-green-ink)}
+.channel-warn .channel-blocked{color:var(--omg-amber-ink)}
+
+/* Chips */
+.summary-row{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;padding:6px 14px;border-radius:40px;border:1px solid}
+.chip.red{background:var(--omg-coral-pale);color:var(--omg-coral-ink);border-color:#f0c0b0}
+.chip.amber{background:var(--omg-amber-pale);color:var(--omg-amber-ink);border-color:#f0d8a0}
+.chip.blue{background:var(--omg-blue-pale);color:var(--omg-blue);border-color:#b8c0d8}
+.chip.green{background:var(--omg-green-pale);color:var(--omg-green-ink);border-color:#b0d890}
+
+/* Card / table */
+.card{background:#fff;border:1px solid var(--omg-light);border-radius:var(--r-card);overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow-card)}
+table{width:100%;border-collapse:collapse;font-size:11px}
+thead th{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#909297;padding:8px 12px;background:var(--omg-off);border-bottom:1px solid var(--omg-light);text-align:left;white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--omg-light)}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:#fafafa}
+td{padding:9px 12px;vertical-align:top;color:var(--omg-slate)}
+td.mono{font-family:'Courier New',monospace;font-size:10px;color:#444}
+.sev-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:40px}
+.sev-badge.error{background:var(--omg-coral-pale);color:var(--omg-coral-ink)}
+.sev-badge.warning{background:var(--omg-amber-pale);color:var(--omg-amber-ink)}
+.sev-badge.info{background:var(--omg-blue-pale);color:var(--omg-blue)}
+.map-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px}
+.map-badge.mapped{background:var(--omg-green-pale);color:var(--omg-green-ink)}
+.map-badge.fuzzy{background:var(--omg-amber-pale);color:var(--omg-amber-ink)}
+.map-badge.missing{background:var(--omg-coral-pale);color:var(--omg-coral-ink)}
+.suggest{font-size:10px;background:var(--omg-green-pale);color:var(--omg-green-ink);border-radius:4px;padding:2px 6px;display:inline-block;margin-top:3px}
+.unknown-pills{display:flex;flex-wrap:wrap;gap:6px;padding:14px}
+.unknown-pill{font-size:10px;font-weight:600;padding:4px 10px;border-radius:5px;background:var(--omg-blue-pale);color:var(--omg-blue);border:1px solid #b8c0d8}
+
+/* Buttons */
+.btn-primary{display:inline-flex;align-items:center;gap:6px;font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;background:var(--omg-green);color:var(--omg-slate);border:none;border-radius:40px;padding:10px 22px;cursor:pointer;transition:opacity 150ms}
+.btn-primary:hover{opacity:.88}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.btn-ghost{display:inline-flex;align-items:center;gap:6px;font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;background:transparent;color:var(--omg-slate);border:1px solid var(--omg-light);border-radius:40px;padding:9px 20px;cursor:pointer;transition:all 150ms}
+.btn-ghost:hover{border-color:var(--omg-green-ink)}
+.btn-row{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;align-items:center}
+
+/* Tabs */
+.tabs{display:flex;border-bottom:2px solid var(--omg-light);margin-bottom:16px}
+.tab{font-size:11px;font-weight:600;padding:8px 16px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:#909297;transition:all 150ms;user-select:none}
+.tab.active{color:var(--omg-green-ink);border-bottom-color:var(--omg-green)}
+.tab:hover:not(.active){color:var(--omg-slate)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* Contact gate */
+.gate-wrap{background:#fff;border:1px solid var(--omg-light);border-radius:var(--r-card);box-shadow:var(--shadow-win);overflow:hidden;margin-bottom:22px}
+.gate-header{background:var(--omg-slate);padding:22px 28px;border-bottom:2px solid var(--omg-green)}
+.gate-eyebrow{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--omg-green);margin-bottom:6px}
+.gate-header h2{font-size:18px;font-weight:700;color:#fff;letter-spacing:-.01em}
+.gate-header p{font-size:12px;color:#909297;margin-top:4px}
+.gate-body{padding:24px 28px}
+.gate-preview{background:var(--omg-off);border:1px solid var(--omg-light);border-radius:var(--r-sm);padding:16px 18px;margin-bottom:22px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.gate-preview-score{text-align:center;min-width:64px}
+.gate-preview-score .big{font-size:30px;font-weight:700}
+.gate-preview-score .lbl{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#909297}
+.gate-divider{width:1px;height:52px;background:var(--omg-light)}
+.gate-preview-blur{font-size:11px;color:#909297;background:var(--omg-white);border:1px dashed var(--omg-light);border-radius:6px;padding:8px 12px;flex:1;min-width:180px}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+@media(max-width:560px){.field-grid{grid-template-columns:1fr}.score-dims{grid-template-columns:repeat(3,1fr)}.channel-impact-grid{grid-template-columns:1fr 1fr}}
+.field-wrap{}
+.field-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--omg-slate);margin-bottom:5px}
+.field-label span{color:var(--omg-coral-ink)}
+input[type=text],input[type=email],select{width:100%;font-family:'Poppins',sans-serif;font-size:12px;padding:9px 12px;border:1.5px solid var(--omg-light);border-radius:8px;outline:none;color:var(--omg-slate);background:#fff;transition:border 150ms}
+input[type=text]:focus,input[type=email]:focus,select:focus{border-color:var(--omg-green-ink)}
+.consent-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;font-size:11px;color:#555;line-height:1.5}
+input[type=checkbox]{width:16px;height:16px;margin-top:2px;accent-color:var(--omg-green-ink);flex-shrink:0;cursor:pointer}
+.gate-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.gate-note{font-size:10px;color:#909297}
+.field-error{font-size:10px;color:var(--omg-coral-ink);margin-top:4px}
+
+/* Confirm */
+.confirm-wrap{background:#fff;border:1px solid var(--omg-light);border-radius:var(--r-card);padding:36px 32px;text-align:center;margin-bottom:22px;box-shadow:var(--shadow-card)}
+.confirm-icon{width:56px;height:56px;border-radius:50%;background:var(--omg-green-pale);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.confirm-icon svg{stroke:var(--omg-green-ink);stroke-width:2.5;fill:none}
+.confirm-wrap h2{font-size:18px;font-weight:700;color:var(--omg-slate);margin-bottom:8px}
+.confirm-wrap p{font-size:12px;color:#555;max-width:380px;margin:0 auto 16px;line-height:1.6}
+.confirm-email-badge{display:inline-flex;align-items:center;gap:6px;background:var(--omg-green-pale);color:var(--omg-green-ink);font-size:11px;font-weight:700;padding:6px 14px;border-radius:40px;margin-bottom:20px}
+
+/* Email preview */
+.email-preview{background:#fff;border:1px solid var(--omg-light);border-radius:var(--r-card);overflow:hidden;margin-bottom:22px;box-shadow:var(--shadow-card)}
+.email-chrome{background:var(--omg-off);border-bottom:1px solid var(--omg-light);padding:10px 16px;display:flex;align-items:center;gap:8px}
+.email-dot{width:10px;height:10px;border-radius:50%}
+.email-subject-bar{flex:1;background:#fff;border:1px solid var(--omg-light);border-radius:5px;padding:4px 10px;font-size:11px;color:#555}
+.email-body{padding:28px 32px;font-size:13px;line-height:1.7;color:#333;max-height:540px;overflow-y:auto}
+.email-generating{padding:40px;text-align:center;color:#909297;font-size:12px}
+.spinner{width:28px;height:28px;border:3px solid var(--omg-light);border-top-color:var(--omg-green);border-radius:50%;animation:spin 700ms linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.hidden{display:none}
+.section-eyebrow{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--omg-green-ink);margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--omg-green)}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-topo"></div>
+    <div class="header-inner">
+      <div class="header-eyebrow">OrderMyGear · OneSource</div>
+      <div class="header-rule"></div>
+      <h1>PromoStandards data assessor</h1>
+      <p>Upload your product data and see exactly how data quality affects your visibility across OMG's 16,200+ buyer network — then get your full report by email.</p>
+    </div>
+  </div>
+
+  <!-- Impact banner -->
+  <div class="impact-banner">
+    <div class="impact-banner-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24"><path d="M1 6l11 6 11-6M1 12l11 6 11-6"/></svg>
+    </div>
+    <div class="impact-banner-text">
+      <strong>Bad data costs you buyers — across every channel.</strong>
+      <p>When your PromoStandards data has errors or missing fields, OMG can't display your products in search results, online stores, presentations, or distributor websites. Every gap is a sale you don't know you're missing.</p>
+      <div class="impact-channels">
+        <span class="impact-channel">Product Search</span>
+        <span class="impact-channel">Pop-up &amp; Company Stores</span>
+        <span class="impact-channel">Presentations</span>
+        <span class="impact-channel">Distributor Websites</span>
+        <span class="impact-channel">OneSource API (175+ partners)</span>
+        <span class="impact-channel">Supplier Website</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 1: Upload -->
+  <div id="step-upload">
+    <div class="upload-zone" id="upload-zone">
+      <input type="file" id="file-input" accept=".csv,.json,.xml" style="display:none">
+      <svg class="upload-icon" viewBox="0 0 44 44" fill="none" stroke="#909297" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="6" y="6" width="32" height="32" rx="6"/>
+        <path d="M22 28V16M16 22l6-6 6 6"/>
+      </svg>
+      <div class="upload-title">Drop your product data file here</div>
+      <div class="upload-sub">or click to browse — CSV, JSON, or XML</div>
+      <div class="upload-formats">
+        <span class="fmt-pill">CSV</span>
+        <span class="fmt-pill">JSON</span>
+        <span class="fmt-pill">XML</span>
+      </div>
+    </div>
+    <div id="status-bar" class="status-bar hidden">
+      <span class="status-dot processing" id="status-dot"></span>
+      <span id="status-msg">Analysing…</span>
+    </div>
+  </div>
+
+  <!-- STEP 2: Contact Gate -->
+  <div id="step-gate" class="hidden">
+    <div class="gate-wrap">
+      <div class="gate-header">
+        <div class="gate-eyebrow">Analysis complete</div>
+        <h2>Your report is ready — where should we send it?</h2>
+        <p>Enter your details below and we'll email you the full field-by-field breakdown with prioritised fixes.</p>
+      </div>
+      <div class="gate-body">
+        <div class="gate-preview" id="gate-preview"><!-- filled by JS --></div>
+        <div class="field-grid">
+          <div class="field-wrap">
+            <div class="field-label">First name <span>*</span></div>
+            <input type="text" id="f-first" placeholder="Jordan">
+            <div class="field-error hidden" id="err-first">Required</div>
+          </div>
+          <div class="field-wrap">
+            <div class="field-label">Last name <span>*</span></div>
+            <input type="text" id="f-last" placeholder="Smith">
+            <div class="field-error hidden" id="err-last">Required</div>
+          </div>
+          <div class="field-wrap">
+            <div class="field-label">Work email <span>*</span></div>
+            <input type="email" id="f-email" placeholder="jordan@supplier.com">
+            <div class="field-error hidden" id="err-email">Valid email required</div>
+          </div>
+          <div class="field-wrap">
+            <div class="field-label">Company <span>*</span></div>
+            <input type="text" id="f-company" placeholder="Acme Promo Supply Co.">
+            <div class="field-error hidden" id="err-company">Required</div>
+          </div>
+          <div class="field-wrap">
+            <div class="field-label">Your role</div>
+            <select id="f-role">
+              <option value="">Select role</option>
+              <option>Product / Data Manager</option>
+              <option>IT / Systems</option>
+              <option>Sales / Account Manager</option>
+              <option>Marketing</option>
+              <option>Owner / Executive</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="consent-row">
+          <input type="checkbox" id="f-consent">
+          <label for="f-consent">I agree to receive my PromoStandards assessment report and occasional product updates from OrderMyGear. You can unsubscribe at any time.
+            <div class="field-error hidden" id="err-consent">Please agree to receive the report</div>
+          </label>
+        </div>
+        <div class="gate-actions">
+          <button class="btn-primary" id="btn-submit" onclick="submitContact()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+            Send my report
+          </button>
+          <button class="btn-ghost" onclick="resetTool()">Upload different file</button>
+          <span class="gate-note">Your data is never stored. Report sent instantly.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: Generating -->
+  <div id="step-sending" class="hidden">
+    <div class="card">
+      <div class="email-generating">
+        <div class="spinner"></div>
+        <div style="font-weight:700;color:var(--omg-slate);margin-bottom:4px">Generating your report…</div>
+        <div id="sending-msg">Compiling findings into a personalised assessment</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: Confirmation -->
+  <div id="step-confirm" class="hidden">
+    <div class="confirm-wrap">
+      <div class="confirm-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2>Report on its way</h2>
+      <p>We've sent your full PromoStandards assessment to:</p>
+      <div class="confirm-email-badge" id="confirm-email-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+        <span id="confirm-email-text"></span>
+      </div>
+      <p>Check spam if it doesn't arrive within a few minutes. Here's a preview of what we sent:</p>
+    </div>
+    <div style="margin-bottom:8px;font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#909297">EMAIL PREVIEW</div>
+    <div class="email-preview">
+      <div class="email-chrome">
+        <span class="email-dot" style="background:#FD7E61"></span>
+        <span class="email-dot" style="background:#B3E354"></span>
+        <span class="email-dot" style="background:#4AD000"></span>
+        <div class="email-subject-bar" id="email-subject-bar">Your PromoStandards data assessment</div>
+      </div>
+      <div class="email-body" id="email-body-preview"><!-- filled by JS --></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-ghost" onclick="resetTool()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Assess another file
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── PromoStandards schema ───────────────────────────────────────────────────
+const PS_FIELDS = [
+  {name:"productId",type:"String",required:true,example:"ABC-1234",note:"Primary product identifier",aliases:["product_id","id","item_id","prod_id"],channel_impact:["search","stores","api","supplier"]},
+  {name:"productName",type:"String",required:true,example:"Custom Printed Mug",note:"Short display name",aliases:["product_name","name","title","item_name","product_title"],channel_impact:["search","stores","presentations","websites","api","supplier"]},
+  {name:"productDescription",type:"String",required:false,example:"16oz ceramic mug...",note:"Long-form HTML or plain text",aliases:["product_description","description","desc","long_description","body"],channel_impact:["stores","presentations","websites","supplier"]},
+  {name:"productBrand",type:"String",required:false,example:"BrandCo",note:"Brand/line name",aliases:["product_brand","brand","brand_name","manufacturer"],channel_impact:["search","api"]},
+  {name:"productKeywords",type:"String",required:false,example:"mug, drinkware",note:"Comma-separated tags",aliases:["product_keywords","keywords","tags","search_tags"],channel_impact:["search"]},
+  {name:"productNumber",type:"String",required:true,example:"MUG-16",note:"Supplier item #",aliases:["product_number","item_number","sku","part_number","model_number","style"],channel_impact:["stores","api","presentations"]},
+  {name:"categoryCode",type:"String",required:true,example:"DRNK",note:"PS category taxonomy code",aliases:["category_code","cat_code","category_id","cat_id"],channel_impact:["search","api"]},
+  {name:"categoryName",type:"String",required:true,example:"Drinkware",note:"Human-readable category",aliases:["category_name","category","cat_name","product_category"],channel_impact:["search","stores","websites","supplier"]},
+  {name:"color",type:"String",required:false,example:"Red",note:"Color name or code",aliases:["color","colour","color_name","color_description"],channel_impact:["search","stores"]},
+  {name:"size",type:"String",required:false,example:"16oz",note:"Size descriptor",aliases:["size","size_name","size_description","dimensions"],channel_impact:["stores","api"]},
+  {name:"partId",type:"String",required:true,example:"ABC-1234-RED",note:"Configurable part ID",aliases:["part_id","part","variant_id","option_id","config_id"],channel_impact:["stores","api","presentations"]},
+  {name:"partDescription",type:"String",required:false,example:"Red 16oz mug",note:"Part-level description",aliases:["part_description","part_desc","variant_description"],channel_impact:["stores"]},
+  {name:"priceType",type:"Enum",required:true,example:"List",note:"Must be: List, Net, or Customer",aliases:["price_type","pricing_type","price_category"],allowed:["List","Net","Customer"],channel_impact:["stores","api","presentations"]},
+  {name:"price",type:"Decimal",required:true,example:"4.50",note:"Unit price (numeric)",aliases:["price","unit_price","cost","list_price","net_price","wholesale_price"],channel_impact:["stores","presentations","api","websites","supplier"]},
+  {name:"priceCurrency",type:"Currency",required:true,example:"USD",note:"ISO 4217 currency code",aliases:["price_currency","currency","currency_code","currency_type"],channel_impact:["stores","api","supplier"]},
+  {name:"minQuantity",type:"Integer",required:true,example:"72",note:"Minimum order quantity",aliases:["min_quantity","min_qty","minimum_quantity","minimum_order","moq","min_order"],channel_impact:["stores","api","presentations","supplier"]},
+  {name:"quantityIncrements",type:"Integer",required:false,example:"24",note:"Order quantity steps",aliases:["quantity_increments","qty_increment","order_increment","case_quantity"],channel_impact:["stores","api"]},
+  {name:"setupCharge",type:"Decimal",required:false,example:"45.00",note:"One-time setup fee",aliases:["setup_charge","setup_fee","setup_cost","run_charge"],channel_impact:["presentations","stores"]},
+  {name:"imageURL",type:"URL",required:false,example:"https://example.com/img.jpg",note:"Primary product image URL",aliases:["image_url","image","image_link","photo_url","media_url","picture_url"],channel_impact:["search","stores","presentations","websites","api","supplier"]},
+  {name:"productDataTimeStamp",type:"DateTime",required:true,example:"2025-06-01T00:00:00Z",note:"Last modified UTC (ISO 8601)",aliases:["product_data_timestamp","timestamp","last_updated","updated_at","modified_date","date_updated"],channel_impact:["api"]},
+];
+
+const VALID_CURRENCIES=["USD","EUR","GBP","CAD","AUD","JPY","CHF","CNY","MXN","BRL","SEK","NOK","DKK","NZD","SGD","HKD","INR","ZAR","KRW"];
+const WEIGHTS={requiredFields:0.35,dataTypeFormat:0.25,fieldCoverage:0.20,mediaQuality:0.10,dataFreshness:0.10};
+
+// ── Channel definitions ─────────────────────────────────────────────────────
+const CHANNELS = [
+  {key:"search",name:"Product Search",color:"#4AD000",stat:"2.1M+ searches/mo"},
+  {key:"stores",name:"Pop-up & Company Stores",color:"#6868DD",stat:"Active buyer orders"},
+  {key:"presentations",name:"Presentations",color:"#E3922B",stat:"Client-facing proposals"},
+  {key:"websites",name:"Distributor Websites",color:"#FD7E61",stat:"5,000+ distributor sites"},
+  {key:"api",name:"OneSource API",color:"#B3E354",stat:"175+ tech partners"},
+  {key:"supplier",name:"Supplier Website",color:"#09450D",stat:"Your branded storefront"},
+];
+
+// ── State ───────────────────────────────────────────────────────────────────
+let currentResult = null;
+
+// ── Utility ─────────────────────────────────────────────────────────────────
+function norm(s){return String(s).toLowerCase().replace(/[^a-z0-9]/g,"")}
+
+function matchField(col){
+  const n=norm(col);
+  for(const f of PS_FIELDS){if(norm(f.name)===n) return {field:f,confidence:"exact"}}
+  for(const f of PS_FIELDS){for(const a of f.aliases){if(norm(a)===n) return {field:f,confidence:"exact"}}}
+  // Fuzzy: one name must contain the other, and the shared span must be >60% of the longer string's characters.
+  // Ranked so the closest field wins, rather than whichever field happens to appear first in PS_FIELDS.
+  let best=null;
+  for(const f of PS_FIELDS){
+    const all=[f.name,...f.aliases].map(norm);
+    for(const a of all){
+      if(!(a.includes(n)||n.includes(a))) continue;
+      const ratio=Math.min(a.length,n.length)/Math.max(a.length,n.length);
+      if(ratio>0.6&&(!best||ratio>best.ratio)) best={field:f,ratio};
+    }
+  }
+  return best?{field:best.field,confidence:"fuzzy"}:null;
+}
+
+function validateValue(field,value,allValues){
+  const issues=[];
+  const v=String(value??"").trim();
+  const empty=v===""||v==="undefined"||v==="null";
+  if(field.required&&empty){issues.push({severity:"error",message:"Required field is empty",suggestion:`Provide a value. Example: "${field.example}"`});return issues}
+  if(empty) return issues;
+  switch(field.type){
+    case"Decimal":
+      if(isNaN(parseFloat(v))||!/^-?\d+(\.\d+)?$/.test(v.replace(/,/g,"")))
+        issues.push({severity:"error",message:`Expected decimal number, got "${v}"`,suggestion:`Use a plain number e.g. "4.50"`});
+      else if(parseFloat(v)<0)
+        issues.push({severity:"warning",message:`Negative value (${v}) — confirm intentional`,suggestion:`Prices typically positive`});
+      break;
+    case"Integer":
+      if(!/^\d+$/.test(v.replace(/,/g,"")))
+        issues.push({severity:"error",message:`Expected whole number, got "${v}"`,suggestion:`Use integer e.g. "${field.example}"`});
+      else if(parseInt(v)<=0)
+        issues.push({severity:"warning",message:`Quantity should be positive integer`,suggestion:`Must be > 0`});
+      break;
+    case"Currency":
+      if(!VALID_CURRENCIES.includes(v.toUpperCase()))
+        issues.push({severity:"error",message:`"${v}" is not a valid ISO 4217 currency code`,suggestion:`Use 3-letter code like "USD", "EUR", "GBP"`});
+      break;
+    case"URL":{
+      let validUrl=true;
+      try{new URL(v)}catch{validUrl=false;issues.push({severity:"error",message:`"${v.slice(0,40)}" is not a valid URL`,suggestion:`Use full URL starting with https://`})}
+      if(validUrl&&!v.match(/\.(jpg|jpeg|png|gif|webp|svg)(\?.*)?$/i))
+        issues.push({severity:"info",message:`Image URL missing recognised image format extension`,suggestion:`Verify URL returns a JPEG, PNG, or WebP image`});
+      break;}
+    case"DateTime":{
+      const iso=/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2})?Z?)?$/.test(v);
+      if(!iso) issues.push({severity:"error",message:`"${v}" is not ISO 8601 format`,suggestion:`Use format: "2025-06-01T00:00:00Z"`});
+      else{
+        const age=(new Date()-new Date(v))/(1000*60*60*24*30);
+        if(age>6) issues.push({severity:"warning",message:`Timestamp over 6 months old (${Math.round(age)} mo)`,suggestion:`Refresh product data — stale listings are deprioritised`});
+      }
+      break;}
+    case"Enum":
+      if(field.allowed&&!field.allowed.includes(v))
+        issues.push({severity:"error",message:`"${v}" not an allowed value`,suggestion:`Must be one of: ${field.allowed.join(", ")}`});
+      break;
+    case"String":
+      if(v.length>500) issues.push({severity:"info",message:`Value very long (${v.length} chars)`,suggestion:`Consider trimming for performance`});
+      break;
+  }
+  if(field.name==="quantityIncrements"&&allValues){
+    const mq=allValues["minQuantity"];
+    if(mq&&!isNaN(parseInt(v))&&!isNaN(parseInt(mq))&&parseInt(v)>parseInt(mq))
+      issues.push({severity:"error",message:`quantityIncrements (${v}) exceeds minQuantity (${mq})`,suggestion:`Increments can't exceed minimum order quantity`});
+  }
+  return issues;
+}
+
+// ── File parsers ────────────────────────────────────────────────────────────
+function splitCSVLine(line){
+  const result=[];let cur="",inQ=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch==='"'){ if(inQ&&line[i+1]==='"'){ cur+='"';i++; } else inQ=!inQ; }
+    else if(ch===','&&!inQ){ result.push(cur.trim());cur=""; }
+    else cur+=ch;
+  }
+  result.push(cur.trim());
+  return result;
+}
+function parseCSV(text){
+  const lines=text.trim().split(/\r?\n/);
+  if(lines.length<2) throw new Error("CSV needs a header row and at least one data row");
+  const headers=splitCSVLine(lines[0]).map(h=>h.replace(/^"|"$/g,"").trim());
+  const rows=lines.slice(1).map(line=>{
+    const vals=splitCSVLine(line).map(v=>v.replace(/^"|"$/g,"").trim());
+    return Object.fromEntries(headers.map((h,i)=>[h,vals[i]??""]));
+  }).filter(r=>Object.values(r).some(v=>v!==""));
+  return {headers,rows};
+}
+function parseJSON(text){
+  const data=JSON.parse(text);
+  const arr=Array.isArray(data)?data:(data.products||data.items||data.data||[data]);
+  if(!arr.length) throw new Error("No records found in JSON");
+  const headers=[...new Set(arr.flatMap(Object.keys))];
+  return {headers,rows:arr};
+}
+function parseXML(text){
+  const doc=new DOMParser().parseFromString(text,"text/xml");
+  const items=doc.querySelectorAll("Product,product,Item,item,Row,row,Record,record");
+  if(!items.length) throw new Error("Could not find records. Use elements named Product, Item, or Row.");
+  const records=[...items].map(item=>{const o={};for(const c of item.children) o[c.tagName]=c.textContent.trim();return o;});
+  return {headers:[...new Set(records.flatMap(Object.keys))],rows:records};
+}
+
+// ── Core analysis ───────────────────────────────────────────────────────────
+function analyseData({headers,rows}){
+  const mapping={};
+  headers.forEach(col=>{const m=matchField(col);if(m) mapping[col]=m;});
+  const mappedPSFields=new Set(Object.values(mapping).map(m=>m.field.name));
+  const unmappedCols=headers.filter(h=>!mapping[h]);
+
+  const allIssues=[];
+  const n=rows.length;
+
+  // Column-level issues — flagged once per column, not once per row
+  Object.entries(mapping).forEach(([col,{field,confidence}])=>{
+    if(confidence==="fuzzy")
+      allIssues.push({severity:"info",message:`Column "${col}" fuzzy-matched to "${field.name}"`,suggestion:`Rename to "${field.name}" for exact match`,col,psField:field.name,value:"",row:"—"});
+  });
+  PS_FIELDS.filter(f=>f.required&&!mappedPSFields.has(f.name)).forEach(f=>{
+    allIssues.push({severity:"error",message:`Required field "${f.name}" not found in file`,suggestion:`Add a column named "${f.name}". Example value: "${f.example}"`,col:"—",psField:f.name,value:"",row:"—"});
+  });
+
+  // Per-row validation — collect every issue with row context
+  rows.forEach((row,idx)=>{
+    const psRowValues={};
+    Object.entries(mapping).forEach(([col,{field}])=>{psRowValues[field.name]=row[col];});
+
+    Object.entries(mapping).forEach(([col,{field}])=>{
+      validateValue(field,row[col],psRowValues).forEach(issue=>
+        allIssues.push({...issue,col,psField:field.name,value:row[col],row:idx+1}));
+    });
+  });
+
+  const errors=allIssues.filter(i=>i.severity==="error");
+  const warnings=allIssues.filter(i=>i.severity==="warning");
+  const infos=allIssues.filter(i=>i.severity==="info");
+
+  // ── SCORE 1: Required fields (35%)
+  // Measures: for each required field, what % of rows have a non-empty, non-error value?
+  // A column that's absent OR full of blanks/errors tanks this score.
+  const reqFields=PS_FIELDS.filter(f=>f.required);
+  let reqPassTotal=0, reqCheckTotal=0;
+  reqFields.forEach(f=>{
+    reqCheckTotal+=n;
+    const col=Object.keys(mapping).find(c=>mapping[c].field.name===f.name);
+    if(!col){
+      // Column entirely missing — 0 passes for this field
+    } else {
+      rows.forEach((row,ri)=>{
+        const v=String(row[col]??"").trim();
+        const empty=v===""||v==="undefined"||v==="null";
+        const hasTypeError=allIssues.some(i=>i.psField===f.name&&i.row===ri+1&&i.severity==="error");
+        if(!empty&&!hasTypeError) reqPassTotal++;
+      });
+    }
+  });
+  const reqScore=reqCheckTotal>0?Math.round((reqPassTotal/reqCheckTotal)*100):100;
+
+  // ── SCORE 2: Data type & format accuracy (25%)
+  // Measures: across all mapped fields, what % of row-field checks pass type/format validation?
+  let typePassTotal=0, typeCheckTotal=0;
+  Object.entries(mapping).forEach(([col,{field}])=>{
+    rows.forEach((row,idx)=>{
+      const v=String(row[col]??"").trim();
+      if(v===""||v==="undefined"||v==="null") return; // blank — not a type error, skip
+      typeCheckTotal++;
+      const typeIssue=allIssues.some(i=>i.psField===field.name&&i.row===idx+1&&i.severity==="error");
+      if(!typeIssue) typePassTotal++;
+    });
+  });
+  const typeScore=typeCheckTotal>0?Math.round((typePassTotal/typeCheckTotal)*100):100;
+
+  // ── SCORE 3: Optional field coverage (20%)
+  // Measures: what % of optional PS fields are present AND have at least 50% fill rate?
+  const optFields=PS_FIELDS.filter(f=>!f.required);
+  let optGoodCount=0;
+  optFields.forEach(f=>{
+    const col=Object.keys(mapping).find(c=>mapping[c].field.name===f.name);
+    if(!col){optGoodCount+=0;return;}
+    const filled=rows.filter(row=>{const v=String(row[col]??"").trim();return v!==""&&v!=="undefined"&&v!=="null";}).length;
+    const fillRate=n>0?filled/n:0;
+    optGoodCount+=fillRate; // partial credit: 0–1 per field based on fill rate
+  });
+  const coverageScore=optFields.length>0?Math.round((optGoodCount/optFields.length)*100):100;
+
+  // ── SCORE 4: Media / image quality (10%)
+  // Measures: % of rows with a valid, well-formed image URL
+  const imgEntry=Object.entries(mapping).find(([,m])=>m.field.name==="imageURL");
+  let mediaScore=0; // default 0 — no images at all is bad
+  if(imgEntry){
+    const[ic]=imgEntry;
+    let validImgCount=0;
+    rows.forEach((row,idx)=>{
+      const v=String(row[ic]??"").trim();
+      if(!v||v==="undefined"||v==="null") return;
+      const hasError=allIssues.some(i=>i.psField==="imageURL"&&i.row===idx+1&&i.severity==="error");
+      const hasWarn=allIssues.some(i=>i.psField==="imageURL"&&i.row===idx+1&&i.severity==="warning");
+      if(!hasError&&!hasWarn) validImgCount++;
+      else if(!hasError) validImgCount+=0.5; // warning = partial credit
+    });
+    mediaScore=n>0?Math.round((validImgCount/n)*100):0;
+  }
+
+  // ── SCORE 5: Data freshness (10%)
+  // Measures: % of rows with a valid, recent timestamp
+  const tsEntry=Object.entries(mapping).find(([,m])=>m.field.name==="productDataTimeStamp");
+  let freshnessScore=0; // default 0 — no timestamp at all is a fail
+  if(tsEntry){
+    const[tc]=tsEntry;
+    let freshCount=0;
+    rows.forEach((row,idx)=>{
+      const v=String(row[tc]??"").trim();
+      if(!v||v==="undefined"||v==="null") return;
+      const hasError=allIssues.some(i=>i.psField==="productDataTimeStamp"&&i.row===idx+1&&i.severity==="error");
+      const hasWarn=allIssues.some(i=>i.psField==="productDataTimeStamp"&&i.row===idx+1&&i.severity==="warning");
+      if(!hasError&&!hasWarn) freshCount++;
+      else if(!hasError) freshCount+=0.5;
+    });
+    freshnessScore=n>0?Math.round((freshCount/n)*100):0;
+  }
+
+  const overall=Math.round(
+    reqScore      * WEIGHTS.requiredFields +
+    typeScore     * WEIGHTS.dataTypeFormat +
+    coverageScore * WEIGHTS.fieldCoverage  +
+    mediaScore    * WEIGHTS.mediaQuality   +
+    freshnessScore* WEIGHTS.dataFreshness
+  );
+
+  // Channel impact
+  const channelStatus={};
+  CHANNELS.forEach(ch=>{
+    const relevantFields=PS_FIELDS.filter(f=>f.channel_impact&&f.channel_impact.includes(ch.key));
+    const missingRequired=relevantFields.filter(f=>f.required&&!mappedPSFields.has(f.name));
+    const issuesForChannel=allIssues.filter(i=>i.severity==="error"&&relevantFields.find(f=>f.name===i.psField));
+    if(missingRequired.length>0) channelStatus[ch.key]={status:"blocked",reason:`Missing required: ${missingRequired.map(f=>f.name).slice(0,2).join(", ")}`};
+    else if(issuesForChannel.length>5) channelStatus[ch.key]={status:"warn",reason:`${issuesForChannel.length} data errors reducing match quality`};
+    else if(issuesForChannel.length>0) channelStatus[ch.key]={status:"warn",reason:`${issuesForChannel.length} data issue${issuesForChannel.length!==1?"s":""} to fix`};
+    else channelStatus[ch.key]={status:"ok",reason:"Data meets requirements"};
+  });
+
+  return{headers,rows,totalRows:rows.length,mapping,mappedPSFields,unmappedCols,allIssues,errors,warnings,infos,channelStatus,scores:{overall,requiredFields:Math.round(reqScore),dataTypeFormat:Math.round(typeScore),fieldCoverage:Math.round(coverageScore),mediaQuality:Math.round(mediaScore),dataFreshness:Math.round(freshnessScore)}};
+}
+
+function grade(score){
+  if(score>=90) return{label:"Excellent",color:"#4AD000",ink:"#09450D"};
+  if(score>=75) return{label:"Good",color:"#B3E354",ink:"#5E7E15"};
+  if(score>=60) return{label:"Fair",color:"#E3922B",ink:"#8A6212"};
+  if(score>=40) return{label:"Poor",color:"#FD7E61",ink:"#C0492F"};
+  return{label:"Critical",color:"#E84040",ink:"#8B0000"};
+}
+
+// ── Render helpers ──────────────────────────────────────────────────────────
+function renderScoreCard(result){
+  const{scores}=result;
+  const g=grade(scores.overall);
+  const dims=[
+    {label:"Required fields",key:"requiredFields",weight:"35%",tip:"% of required fields present and non-empty across all rows"},
+    {label:"Type & format",key:"dataTypeFormat",weight:"25%",tip:"% of non-blank values that pass type/format rules"},
+    {label:"Field coverage",key:"fieldCoverage",weight:"20%",tip:"% of optional PS fields present with adequate fill rate"},
+    {label:"Media quality",key:"mediaQuality",weight:"10%",tip:"% of rows with a valid, well-formed image URL"},
+    {label:"Freshness",key:"dataFreshness",weight:"10%",tip:"% of rows with a valid, recent ISO 8601 timestamp"},
+  ];
+  return`<div class="score-card">
+    <div class="score-circle" style="border-color:${g.color}">
+      <div class="score-number" style="color:${g.color}">${scores.overall}</div>
+      <div style="font-size:9px;color:#909297;letter-spacing:.1em">/&nbsp;100</div>
+    </div>
+    <div>
+      <div class="score-grade" style="color:${g.color}">${g.label}</div>
+      <div class="score-title">PromoStandards readiness score</div>
+      <div class="score-note">Composite across 5 dimensions · weighted by integration impact</div>
+      <div class="score-dims">${dims.map(d=>{const dg=grade(scores[d.key]);return`<div class="dim-block" title="${d.tip}"><div class="dim-val" style="color:${dg.color}">${scores[d.key]}</div><div class="dim-label">${d.label}</div><div class="progress-bar"><div class="progress-fill" style="width:${scores[d.key]}%;background:${dg.color}"></div></div><div style="font-size:8px;color:#666;margin-top:3px">${d.weight} weight</div></div>`;}).join("")}</div>
+    </div>
+  </div>`;
+}
+
+function renderVisibilityPanel(result){
+  const{channelStatus}=result;
+  const cells=CHANNELS.map(ch=>{
+    const s=channelStatus[ch.key];
+    const cls=s.status==="blocked"?"channel-impact":s.status==="warn"?"channel-impact channel-warn":"channel-impact channel-ok";
+    const statusLabel=s.status==="blocked"?"BLOCKED FROM THIS CHANNEL":s.status==="warn"?"REDUCED VISIBILITY":"ELIGIBLE";
+    const statusColor=s.status==="blocked"?"var(--omg-coral-ink)":s.status==="warn"?"var(--omg-amber-ink)":"var(--omg-green-ink)";
+    return`<div class="${cls}">
+      <div class="channel-impact-top">
+        <span class="channel-dot" style="background:${ch.color}"></span>
+        <span class="channel-name">${ch.name}</span>
+      </div>
+      <div class="channel-blocked" style="color:${statusColor}">${statusLabel}</div>
+      <div class="channel-why">${s.reason}</div>
+      <div style="font-size:9px;color:var(--omg-mid);margin-top:4px;letter-spacing:.04em">${ch.stat}</div>
+    </div>`;
+  }).join("");
+  return`<div class="visibility-panel">
+    <div class="visibility-header">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--omg-green)" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      <h3>Buyer visibility impact — where you're being seen (or not)</h3>
+    </div>
+    <div class="channel-impact-grid">${cells}</div>
+  </div>`;
+}
+
+function renderGatePreview(result){
+  const g=grade(result.scores.overall);
+  const blockedCount=CHANNELS.filter(ch=>result.channelStatus[ch.key]?.status==="blocked").length;
+  return`<div class="gate-preview-score">
+    <div class="big" style="color:${g.color}">${result.scores.overall}</div>
+    <div class="lbl">/&nbsp;100</div>
+    <div style="font-size:10px;font-weight:700;color:${g.ink};margin-top:2px">${g.label}</div>
+  </div>
+  <div class="gate-divider"></div>
+  <div style="flex:1">
+    <div style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#909297;margin-bottom:6px">ISSUES FOUND</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <span class="chip red" style="font-size:10px;padding:3px 10px">${result.errors.length} errors</span>
+      <span class="chip amber" style="font-size:10px;padding:3px 10px">${result.warnings.length} warnings</span>
+      ${blockedCount>0?`<span class="chip red" style="font-size:10px;padding:3px 10px">${blockedCount} channel${blockedCount!==1?"s":""} blocked</span>`:""}
+    </div>
+    <div style="font-size:11px;color:#909297;margin-top:8px">${result.totalRows} rows · ${result.fileName}</div>
+  </div>
+  <div class="gate-preview-blur">Full field-by-field diagnostics, channel impact breakdown, and prioritised fixes — delivered to your inbox.</div>`;
+}
+
+function renderIssuesTab(result){
+  const groups=[
+    {key:"error",label:"Errors — will break integration",items:result.errors,cls:"error",hdr:"#F9EBE8"},
+    {key:"warning",label:"Warnings — may cause data issues",items:result.warnings,cls:"warning",hdr:"#FBF1D8"},
+    {key:"info",label:"Info — suggestions & improvements",items:result.infos,cls:"info",hdr:"#D3D7E5"},
+  ].filter(g=>g.items.length>0);
+  if(!groups.length) return`<div class="card" style="padding:28px;text-align:center;color:var(--omg-green-ink)"><div style="font-size:24px;margin-bottom:8px">✓</div><div style="font-weight:700;font-size:14px">No issues found</div><div style="font-size:12px;color:#909297;margin-top:4px">Your data passed all PromoStandards validation checks</div></div>`;
+  return groups.map(grp=>`<div class="card" style="margin-bottom:14px">
+    <div style="padding:10px 16px;background:${grp.hdr};border-bottom:1px solid var(--omg-light);display:flex;align-items:center;gap:8px">
+      <span class="sev-badge ${grp.cls}">${grp.items.length}</span>
+      <span style="font-size:11px;font-weight:700">${grp.label}</span>
+    </div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Row</th><th>PS field</th><th>Column</th><th>Issue</th><th>Suggested fix</th></tr></thead>
+        <tbody>${grp.items.slice(0,150).map(issue=>`<tr>
+          <td style="font-weight:600;color:#909297;white-space:nowrap">#${issue.row}</td>
+          <td class="mono">${issue.psField}</td>
+          <td class="mono" style="color:#6868DD">${issue.col}</td>
+          <td><div>${issue.message}</div>${issue.value?`<div style="font-size:10px;color:#555;margin-top:3px">Got: <code style="background:#f4f5f6;padding:1px 4px;border-radius:3px;font-size:10px">${String(issue.value).slice(0,50)}</code></div>`:""}</td>
+          <td><span class="suggest">${issue.suggestion}</span></td>
+        </tr>`).join("")}</tbody>
+      </table>
+    </div>
+    ${grp.items.length>150?`<div style="padding:8px 16px;font-size:11px;color:#909297;text-align:center;border-top:1px solid var(--omg-light)">Showing 150 of ${grp.items.length} — fix errors and re-upload for full view</div>`:""}
+  </div>`).join("");
+}
+
+function renderMappingTab(result){
+  const{mapping}=result;
+  const rows=PS_FIELDS.map(field=>{
+    const colEntry=Object.entries(mapping).find(([,m])=>m.field.name===field.name);
+    const status=!colEntry?"missing":colEntry[1].confidence==="exact"?"mapped":"fuzzy";
+    return`<tr>
+      <td class="mono" style="font-weight:600">${field.name}</td>
+      <td>${field.required?`<span class="sev-badge error" style="font-size:9px">Required</span>`:`<span style="color:#909297;font-size:10px">Optional</span>`}</td>
+      <td class="mono" style="color:#6868DD;font-size:10px">${field.type}</td>
+      <td class="mono" style="color:${colEntry?"var(--omg-slate)":"#ccc"}">${colEntry?colEntry[0]:"—"}</td>
+      <td><span class="map-badge ${status}">${status==="mapped"?"✓ Exact":status==="fuzzy"?"~ Fuzzy":"✗ Missing"}</span></td>
+      <td style="font-size:10px;color:#909297">${field.note}</td>
+    </tr>`;
+  }).join("");
+  return`<div class="card"><div style="overflow-x:auto"><table><thead><tr><th>PS field</th><th>Required</th><th>Type</th><th>Your column</th><th>Match</th><th>Notes</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+}
+
+function renderUnknownTab(result){
+  if(!result.unmappedCols.length) return`<div class="card" style="padding:24px;text-align:center"><div style="font-size:14px;font-weight:700;color:var(--omg-green-ink)">All columns matched</div><div style="font-size:12px;color:#909297;margin-top:4px">Every column was mapped to a PromoStandards field</div></div>`;
+  return`<div class="card">
+    <div style="padding:10px 16px;background:var(--omg-blue-pale);border-bottom:1px solid var(--omg-light);font-size:11px;font-weight:700;color:var(--omg-blue)">${result.unmappedCols.length} column${result.unmappedCols.length!==1?"s":""} could not be mapped to PromoStandards fields</div>
+    <div style="padding:12px 16px;font-size:12px;color:#555;border-bottom:1px solid var(--omg-light)">These may be custom fields, internal codes, or typos. They won't be included in your PS integration without explicit mapping.</div>
+    <div class="unknown-pills">${result.unmappedCols.map(col=>`<span class="unknown-pill">${col}</span>`).join("")}</div>
+  </div>`;
+}
+
+// ── Tab switching ───────────────────────────────────────────────────────────
+function switchTab(key){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.tab===key));
+  document.querySelectorAll(".tab-panel").forEach(p=>p.classList.toggle("active",p.id==="panel-"+key));
+}
+
+// ── File processing ─────────────────────────────────────────────────────────
+async function processFile(file){
+  showStatus("processing",`Reading ${file.name}…`);
+  try{
+    const text=await file.text();
+    const ext=file.name.split(".").pop().toLowerCase();
+    let parsed;
+    if(ext==="csv") parsed=parseCSV(text);
+    else if(ext==="json") parsed=parseJSON(text);
+    else if(ext==="xml") parsed=parseXML(text);
+    else throw new Error(`Unsupported file type: .${ext}. Use CSV, JSON, or XML.`);
+    showStatus("processing","Analysing against PromoStandards schema…");
+    await sleep(150);
+    const result=analyseData(parsed);
+    result.fileName=file.name;
+    currentResult=result;
+    showGate(result);
+  }catch(err){
+    showStatus("error",err.message);
+  }
+}
+
+function showStatus(type,msg){
+  const bar=document.getElementById("status-bar");
+  const dot=document.getElementById("status-dot");
+  const msgEl=document.getElementById("status-msg");
+  bar.classList.remove("hidden");
+  dot.className="status-dot "+type;
+  msgEl.textContent=msg;
+}
+
+function showGate(result){
+  document.getElementById("step-upload").classList.add("hidden");
+  document.getElementById("step-gate").classList.remove("hidden");
+  document.getElementById("gate-preview").innerHTML=renderGatePreview(result);
+}
+
+function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+
+// ── Contact submission ──────────────────────────────────────────────────────
+async function submitContact(){
+  const first=document.getElementById("f-first").value.trim();
+  const last=document.getElementById("f-last").value.trim();
+  const email=document.getElementById("f-email").value.trim();
+  const company=document.getElementById("f-company").value.trim();
+  const role=document.getElementById("f-role").value;
+  const consent=document.getElementById("f-consent").checked;
+  let valid=true;
+  const setErr=(id,show)=>{document.getElementById(id).classList.toggle("hidden",!show);if(show) valid=false;};
+  setErr("err-first",!first);
+  setErr("err-last",!last);
+  setErr("err-email",!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+  setErr("err-company",!company);
+  setErr("err-consent",!consent);
+  if(!valid) return;
+  const contact={first,last,email,company,role};
+  document.getElementById("step-gate").classList.add("hidden");
+  document.getElementById("step-sending").classList.remove("hidden");
+  try{
+    const html=await generateEmail(contact,currentResult);
+    showConfirm(contact,html);
+  }catch(e){
+    showConfirm(contact,"<p style='color:#C0492F'>Error generating email preview. Your report has been sent.</p>");
+  }
+}
+
+// ── Email generation via Claude API ────────────────────────────────────────
+async function generateEmail(contact,result){
+  const{scores,errors,warnings,infos,totalRows,fileName,channelStatus,unmappedCols}=result;
+  const g=grade(scores.overall);
+  const blockedChannels=CHANNELS.filter(ch=>channelStatus[ch.key]?.status==="blocked").map(ch=>ch.name);
+  const warnChannels=CHANNELS.filter(ch=>channelStatus[ch.key]?.status==="warn").map(ch=>ch.name);
+  const topErrors=errors.slice(0,6).map(e=>`Row ${e.row} · ${e.psField}: ${e.message}`).join("\n");
+
+  const prompt=`You are writing a PromoStandards data assessment email on behalf of OrderMyGear (OMG) — a branded merchandise platform connecting 16,200+ distributors, decorators, and dealers.
+
+Supplier contact: ${contact.first} ${contact.last}
+Company: ${contact.company}
+File analysed: ${fileName} (${totalRows} rows)
+
+SCORE: ${scores.overall}/100 (${g.label})
+- Required fields: ${scores.requiredFields}/100
+- Type & format: ${scores.dataTypeFormat}/100  
+- Field coverage: ${scores.fieldCoverage}/100
+- Media quality: ${scores.mediaQuality}/100
+- Data freshness: ${scores.dataFreshness}/100
+
+CHANNEL VISIBILITY IMPACT:
+- BLOCKED from: ${blockedChannels.length>0?blockedChannels.join(", "):"None"}
+- REDUCED visibility on: ${warnChannels.length>0?warnChannels.join(", "):"None"}
+- Issues: ${errors.length} errors · ${warnings.length} warnings · ${infos.length} info
+
+TOP ERRORS:
+${topErrors||"None"}
+
+UNMAPPED COLUMNS: ${unmappedCols.length>0?unmappedCols.join(", "):"None"}
+
+Write a professional, direct HTML email body. OMG brand voice: direct, warm, peer-to-peer, no fluff, no italics. Sentence case headings. No emoji.
+
+Structure:
+1. Short personalised greeting using first name only
+2. 2-sentence summary: their score and what it means for integration readiness
+3. "Where you're missing buyers" — briefly call out blocked/reduced channels by name and what fixing the data unlocks (e.g. 2.1M+ monthly product searches, 5,000+ distributor websites, 175+ OneSource API partners)
+4. Score breakdown — clean list of the 5 dimension scores
+5. Top priority fixes — list 3-4 specific actionable fixes from the errors found
+6. Clear "Next steps" — 2 bullets: fix the data issues, then get listed on OMG
+7. Sign-off from OMG Supplier Integrations team with a CTA button (inline style, pill shape, green) linking to https://www.ordermygear.com/suppliers that says "Get listed on OMG"
+
+Use inline CSS only. Color palette: dark bg #212530, accent green #4AD000, green text on light #09450D, body text #41475A. Keep under 450 words. Return ONLY the inner HTML, no outer tags.`;
+
+  const resp=await fetch("https://api.anthropic.com/v1/messages",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,messages:[{role:"user",content:prompt}]})
+  });
+  const data=await resp.json();
+  return data.content?.find(b=>b.type==="text")?.text||"<p>Unable to generate email preview.</p>";
+}
+
+function showConfirm(contact,emailHtml){
+  document.getElementById("step-sending").classList.add("hidden");
+  document.getElementById("confirm-email-text").textContent=contact.email;
+  const g=currentResult?grade(currentResult.scores.overall):{label:"Assessment"};
+  document.getElementById("email-subject-bar").textContent=`Your PromoStandards data assessment — ${currentResult?.scores?.overall}/100 · ${g.label}`;
+  document.getElementById("email-body-preview").innerHTML=emailHtml;
+  document.getElementById("step-confirm").classList.remove("hidden");
+  // Also render full results below confirm
+  renderResultsSection(currentResult);
+}
+
+// ── Results section ─────────────────────────────────────────────────────────
+function renderResultsSection(result){
+  // Remove existing results section if any
+  const existing=document.getElementById("results-section");
+  if(existing) existing.remove();
+  const section=document.createElement("div");
+  section.id="results-section";
+  section.innerHTML=`
+    <div class="btn-row">
+      <button class="btn-ghost" onclick="resetTool()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Assess another file
+      </button>
+      <span style="font-size:11px;color:#909297">Analysed: ${result.fileName} · ${result.totalRows} row${result.totalRows!==1?"s":""}</span>
+    </div>
+    ${renderScoreCard(result)}
+    <div class="summary-row">
+      <span class="chip red">🔴 ${result.errors.length} error${result.errors.length!==1?"s":""}</span>
+      <span class="chip amber">🟡 ${result.warnings.length} warning${result.warnings.length!==1?"s":""}</span>
+      <span class="chip blue">🔵 ${result.infos.length} info</span>
+      <span class="chip green">✓ ${result.mappedPSFields.size} PS fields mapped</span>
+    </div>
+    ${renderVisibilityPanel(result)}
+    <div class="tabs">
+      <div class="tab active" data-tab="issues" onclick="switchTab('issues')">Issues &amp; fixes</div>
+      <div class="tab" data-tab="mapping" onclick="switchTab('mapping')">Field mapping</div>
+      <div class="tab" data-tab="unknown" onclick="switchTab('unknown')">Unmapped columns</div>
+    </div>
+    <div class="tab-panel active" id="panel-issues">${renderIssuesTab(result)}</div>
+    <div class="tab-panel" id="panel-mapping">${renderMappingTab(result)}</div>
+    <div class="tab-panel" id="panel-unknown">${renderUnknownTab(result)}</div>
+  `;
+  document.getElementById("app").appendChild(section);
+}
+
+// ── Reset ───────────────────────────────────────────────────────────────────
+function resetTool(){
+  currentResult=null;
+  ["step-gate","step-sending","step-confirm"].forEach(id=>document.getElementById(id).classList.add("hidden"));
+  document.getElementById("step-upload").classList.remove("hidden");
+  document.getElementById("status-bar").classList.add("hidden");
+  document.getElementById("file-input").value="";
+  ["f-first","f-last","f-email","f-company"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("f-role").value="";
+  document.getElementById("f-consent").checked=false;
+  ["err-first","err-last","err-email","err-company","err-consent"].forEach(id=>document.getElementById(id).classList.add("hidden"));
+  const rs=document.getElementById("results-section");
+  if(rs) rs.remove();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+// ── Upload zone events ──────────────────────────────────────────────────────
+const zone=document.getElementById("upload-zone");
+const fileInput=document.getElementById("file-input");
+zone.addEventListener("click",()=>fileInput.click());
+zone.addEventListener("dragover",e=>{e.preventDefault();zone.classList.add("drag")});
+zone.addEventListener("dragleave",()=>zone.classList.remove("drag"));
+zone.addEventListener("drop",e=>{e.preventDefault();zone.classList.remove("drag");const f=e.dataTransfer.files[0];if(f) processFile(f);});
+fileInput.addEventListener("change",e=>{const f=e.target.files[0];if(f) processFile(f);});
+</script>
+</body>
+</html>
