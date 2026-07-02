@@ -744,15 +744,20 @@ const DETAILED_REPORT_FIELD_NAME="detailed_assessment_report";
 // HubSpot's own docs confirm onFormReady/onFormSubmit both hand back a jQuery collection.
 function populateDetailedReportField($form){
   try{
-    if(!currentResult) return;
+    if(!currentResult){ console.warn("PromoStandards assessor: no analysis result yet, skipping report field population."); return; }
     const formEl=($form&&typeof $form.querySelector==="function")?$form
       :($form&&typeof $form.get==="function")?$form.get(0)
       :($form&&$form[0])?$form[0]:null;
-    if(!formEl) return;
+    if(!formEl){ console.warn("PromoStandards assessor: could not resolve the HubSpot form element (unexpected $form shape) — logging it for inspection:",$form); return; }
     const hidden=formEl.querySelector(`[name="${DETAILED_REPORT_FIELD_NAME}"]`);
-    if(!hidden) return;
+    if(!hidden){
+      const fieldNames=[...formEl.querySelectorAll("[name]")].map(el=>el.name);
+      console.warn(`PromoStandards assessor: no field named "${DETAILED_REPORT_FIELD_NAME}" found on the HubSpot form. Field names actually present: ${fieldNames.length?fieldNames.join(", "):"(none found — form DOM may not be reachable from this page, e.g. if it renders in a cross-origin iframe)"}`);
+      return;
+    }
     const companyEl=formEl.querySelector('[name="company"]');
     hidden.value=buildDetailedReportText(currentResult,companyEl?companyEl.value:"");
+    console.log(`PromoStandards assessor: populated "${DETAILED_REPORT_FIELD_NAME}" with ${hidden.value.length} characters.`);
   }catch(e){
     console.error("PromoStandards assessor: failed to populate the detailed report field.",e);
   }
