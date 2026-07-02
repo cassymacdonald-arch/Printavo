@@ -776,10 +776,34 @@ function populateDetailedReportField($form){
   }
 }
 
+// HubSpot natively auto-populates any field (including hidden ones) from a URL query
+// parameter whose name matches the field's internal name — handled entirely by
+// HubSpot's own form-rendering code, so it isn't subject to the DOM/controlled-input
+// sync issues that make directly scripting field values unreliable. This is the
+// primary mechanism; the DOM-based populateDetailedReportField is kept as a secondary
+// best-effort attempt (harmless if it doesn't apply to a given portal's render mode).
+function buildReportURLParam(result){
+  const MAX=1200;
+  const text=buildDetailedReportText(result,""); // company shows separately via HubSpot's own "company" field
+  return text.length>MAX?text.slice(0,MAX)+"\n…(truncated — see the tool for the full analysis)":text;
+}
+function prefillReportViaURL(result){
+  try{
+    const params=new URLSearchParams(window.location.search);
+    params.set(DETAILED_REPORT_FIELD_NAME,buildReportURLParam(result));
+    const newUrl=window.location.pathname+"?"+params.toString()+window.location.hash;
+    window.history.replaceState(null,"",newUrl);
+    console.log(`PromoStandards assessor: set "${DETAILED_REPORT_FIELD_NAME}" query parameter (${params.get(DETAILED_REPORT_FIELD_NAME).length} chars) before creating the form.`);
+  }catch(e){
+    console.error("PromoStandards assessor: failed to set the report URL parameter.",e);
+  }
+}
+
 function renderHubSpotForm(){
   const container=document.getElementById("hubspot-form-container");
   if(!container) return;
   container.innerHTML="";
+  if(currentResult) prefillReportViaURL(currentResult);
   const create=()=>window.hbspt.forms.create({
     ...HUBSPOT_FORM,
     target:"#hubspot-form-container",
@@ -787,7 +811,13 @@ function renderHubSpotForm(){
     // that field is ever marked required, HubSpot's pre-submit validation (which runs BEFORE
     // onFormSubmit fires) never sees it as blank. onFormSubmit then refreshes it with
     // whatever company name the visitor actually typed, right before the data is sent.
-    onFormReady:$form=>populateDetailedReportField($form),
+    onFormReady:$form=>{
+      const iframe=container.querySelector("iframe");
+      console.log(iframe
+        ?"PromoStandards assessor: HubSpot form rendered inside an iframe — this page's JS cannot read/write its fields directly, so only the URL-parameter prefill can reach it."
+        :"PromoStandards assessor: HubSpot form rendered inline (no iframe) — field population should be reachable both ways.");
+      populateDetailedReportField($form);
+    },
     onFormSubmit:$form=>populateDetailedReportField($form)
   });
   if(window.hbspt&&window.hbspt.forms){ create(); return; }
