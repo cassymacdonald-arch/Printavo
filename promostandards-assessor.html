@@ -723,11 +723,21 @@ function renderHubSpotForm(){
     ...HUBSPOT_FORM,
     target:"#hubspot-form-container",
     onFormSubmit:$form=>{
-      if(!currentResult) return;
-      const hidden=$form.querySelector(`[name="${DETAILED_REPORT_FIELD_NAME}"]`);
-      if(!hidden) return;
-      const companyEl=$form.querySelector('[name="company"]');
-      hidden.value=buildDetailedReportText(currentResult,companyEl?companyEl.value:"");
+      // Defensive: never let this hook throw, or it can abort HubSpot's own submit handling.
+      // $form's shape has varied across embed versions (raw element vs. jQuery-like wrapper).
+      try{
+        if(!currentResult) return;
+        const formEl=($form&&typeof $form.querySelector==="function")?$form
+          :($form&&typeof $form.get==="function")?$form.get(0)
+          :($form&&$form[0])?$form[0]:null;
+        if(!formEl) return;
+        const hidden=formEl.querySelector(`[name="${DETAILED_REPORT_FIELD_NAME}"]`);
+        if(!hidden) return;
+        const companyEl=formEl.querySelector('[name="company"]');
+        hidden.value=buildDetailedReportText(currentResult,companyEl?companyEl.value:"");
+      }catch(e){
+        console.error("PromoStandards assessor: onFormSubmit hook failed, submission continues without the detailed report field.",e);
+      }
     }
   });
   if(window.hbspt&&window.hbspt.forms){ create(); return; }
