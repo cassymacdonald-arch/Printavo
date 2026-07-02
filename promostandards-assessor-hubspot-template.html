@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PromoStandards Data Assessor — OrderMyGear OneSource</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% if content.html_title %}<title>{{ content.html_title }}</title>{% endif %}
+  <meta name="description" content="{{ content.meta_description }}">
+  {% if brand_settings.primaryFavicon.src %}
+    <link rel="shortcut icon" href="{{ brand_settings.primaryFavicon.src }}" />
+  {% endif %}
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  {{ standard_header_includes }}
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -232,6 +237,12 @@ td.mono{font-family:'Courier New',monospace;font-size:10px;color:#444}
   <div id="step-snapshot" class="hidden"></div>
 
 </div>
+
+{% dnd_area "dnd_area"
+  label="Main section"
+%}
+
+{% end_dnd_area %}
 
 <script charset="utf-8" type="text/javascript" src="https://js.hsforms.net/forms/embed/v2.js"></script>
 <script>
@@ -885,5 +896,6 @@ zone.addEventListener("dragleave",()=>zone.classList.remove("drag"));
 zone.addEventListener("drop",e=>{e.preventDefault();zone.classList.remove("drag");const f=e.dataTransfer.files[0];if(f) processFile(f);});
 fileInput.addEventListener("change",e=>{const f=e.target.files[0];if(f) processFile(f);});
 </script>
+{{ standard_footer_includes }}
 </body>
 </html>
