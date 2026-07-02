@@ -32,6 +32,7 @@ body{font-family:'Poppins',system-ui,sans-serif;background:var(--omg-off);color:
 .header-topo{position:absolute;inset:0;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cpath d='M-100 200 Q100 120 300 200 Q500 280 700 200 Q900 120 1100 200' fill='none' stroke='%234AD000' stroke-width='1.5'/%3E%3Cpath d='M-100 250 Q150 170 350 250 Q550 330 750 250 Q950 170 1150 250' fill='none' stroke='%234AD000' stroke-width='1.5'/%3E%3Cpath d='M-100 150 Q100 70 300 150 Q500 230 700 150 Q900 70 1100 150' fill='none' stroke='%234AD000' stroke-width='1.5'/%3E%3C/svg%3E");background-size:cover;pointer-events:none}
 .header-inner{position:relative}
 .header-eyebrow{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--omg-green);margin-bottom:8px}
+.header-logo{display:block;height:28px;width:auto;margin-bottom:12px}
 .header h1{font-size:26px;font-weight:700;color:#fff;line-height:1.15;letter-spacing:-.02em;margin-bottom:6px}
 .header p{font-size:13px;color:#909297;max-width:560px;line-height:1.6}
 .header-rule{width:40px;height:3px;background:var(--omg-green);border-radius:2px;margin-bottom:14px}
@@ -166,7 +167,11 @@ td.mono{font-family:'Courier New',monospace;font-size:10px;color:#444}
   <div class="header">
     <div class="header-topo"></div>
     <div class="header-inner">
-      <div class="header-eyebrow">OrderMyGear · OneSource</div>
+      {% if brand_settings.primaryLogo.src %}
+        <img class="header-logo" src="{{ brand_settings.primaryLogo.src }}" alt="{{ brand_settings.primaryLogo.altText|default('OrderMyGear', true) }}">
+      {% else %}
+        <div class="header-eyebrow">OrderMyGear · OneSource</div>
+      {% endif %}
       <div class="header-rule"></div>
       <h1>PromoStandards data assessor</h1>
       <p>Upload your product data and see exactly how data quality affects your visibility across OMG's 16,200+ buyer network — then get your full report by email.</p>
