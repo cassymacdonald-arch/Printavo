@@ -742,6 +742,19 @@ const DETAILED_REPORT_FIELD_NAME="detailed_assessment_report";
 // Defensive: never let this throw, or it can abort HubSpot's own form handling.
 // $form's shape varies by embed version (raw element vs. jQuery-like collection) —
 // HubSpot's own docs confirm onFormReady/onFormSubmit both hand back a jQuery collection.
+// HubSpot's form fields are controlled inputs internally (React-style) — a plain
+// `el.value = x` mutates the DOM node but never touches HubSpot's own internal state,
+// so the ORIGINAL empty value is what actually gets submitted. Using the element's
+// native value setter plus a real dispatched "input" event mimics genuine user input,
+// which is what a controlled-input framework actually listens for.
+function setControlledValue(el,value){
+  const proto=el.tagName==="TEXTAREA"?window.HTMLTextAreaElement.prototype:window.HTMLInputElement.prototype;
+  const nativeSetter=Object.getOwnPropertyDescriptor(proto,"value")?.set;
+  if(nativeSetter) nativeSetter.call(el,value); else el.value=value;
+  el.dispatchEvent(new Event("input",{bubbles:true}));
+  el.dispatchEvent(new Event("change",{bubbles:true}));
+}
+
 function populateDetailedReportField($form){
   try{
     if(!currentResult){ console.warn("PromoStandards assessor: no analysis result yet, skipping report field population."); return; }
@@ -756,7 +769,7 @@ function populateDetailedReportField($form){
       return;
     }
     const companyEl=formEl.querySelector('[name="company"]');
-    hidden.value=buildDetailedReportText(currentResult,companyEl?companyEl.value:"");
+    setControlledValue(hidden,buildDetailedReportText(currentResult,companyEl?companyEl.value:""));
     console.log(`PromoStandards assessor: populated "${DETAILED_REPORT_FIELD_NAME}" with ${hidden.value.length} characters.`);
   }catch(e){
     console.error("PromoStandards assessor: failed to populate the detailed report field.",e);
