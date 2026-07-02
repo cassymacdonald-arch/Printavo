@@ -146,18 +146,9 @@ td.mono{font-family:'Courier New',monospace;font-size:10px;color:#444}
 .gate-preview-score .lbl{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#909297}
 .gate-divider{width:1px;height:52px;background:var(--omg-light)}
 .gate-preview-blur{font-size:11px;color:#909297;background:var(--omg-white);border:1px dashed var(--omg-light);border-radius:6px;padding:8px 12px;flex:1;min-width:180px}
-.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
-@media(max-width:560px){.field-grid{grid-template-columns:1fr}.score-dims{grid-template-columns:repeat(3,1fr)}.channel-impact-grid{grid-template-columns:1fr 1fr}}
-.field-wrap{}
-.field-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--omg-slate);margin-bottom:5px}
-.field-label span{color:var(--omg-coral-ink)}
-input[type=text],input[type=email],select{width:100%;font-family:'Poppins',sans-serif;font-size:12px;padding:9px 12px;border:1.5px solid var(--omg-light);border-radius:8px;outline:none;color:var(--omg-slate);background:#fff;transition:border 150ms}
-input[type=text]:focus,input[type=email]:focus,select:focus{border-color:var(--omg-green-ink)}
-.consent-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;font-size:11px;color:#555;line-height:1.5}
-input[type=checkbox]{width:16px;height:16px;margin-top:2px;accent-color:var(--omg-green-ink);flex-shrink:0;cursor:pointer}
+@media(max-width:560px){.score-dims{grid-template-columns:repeat(3,1fr)}.channel-impact-grid{grid-template-columns:1fr 1fr}}
 .gate-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .gate-note{font-size:10px;color:#909297}
-.field-error{font-size:10px;color:var(--omg-coral-ink);margin-top:4px}
 
 /* Confirm */
 .confirm-wrap{background:#fff;border:1px solid var(--omg-light);border-radius:var(--r-card);padding:36px 32px;text-align:center;margin-bottom:22px;box-shadow:var(--shadow-card)}
@@ -246,51 +237,8 @@ input[type=checkbox]{width:16px;height:16px;margin-top:2px;accent-color:var(--om
       </div>
       <div class="gate-body">
         <div class="gate-preview" id="gate-preview"><!-- filled by JS --></div>
-        <div class="field-grid">
-          <div class="field-wrap">
-            <div class="field-label">First name <span>*</span></div>
-            <input type="text" id="f-first" placeholder="Jordan">
-            <div class="field-error hidden" id="err-first">Required</div>
-          </div>
-          <div class="field-wrap">
-            <div class="field-label">Last name <span>*</span></div>
-            <input type="text" id="f-last" placeholder="Smith">
-            <div class="field-error hidden" id="err-last">Required</div>
-          </div>
-          <div class="field-wrap">
-            <div class="field-label">Work email <span>*</span></div>
-            <input type="email" id="f-email" placeholder="jordan@supplier.com">
-            <div class="field-error hidden" id="err-email">Valid email required</div>
-          </div>
-          <div class="field-wrap">
-            <div class="field-label">Company <span>*</span></div>
-            <input type="text" id="f-company" placeholder="Acme Promo Supply Co.">
-            <div class="field-error hidden" id="err-company">Required</div>
-          </div>
-          <div class="field-wrap">
-            <div class="field-label">Your role</div>
-            <select id="f-role">
-              <option value="">Select role</option>
-              <option>Product / Data Manager</option>
-              <option>IT / Systems</option>
-              <option>Sales / Account Manager</option>
-              <option>Marketing</option>
-              <option>Owner / Executive</option>
-              <option>Other</option>
-            </select>
-          </div>
-        </div>
-        <div class="consent-row">
-          <input type="checkbox" id="f-consent">
-          <label for="f-consent">I agree to receive my PromoStandards assessment report and occasional product updates from OrderMyGear. You can unsubscribe at any time.
-            <div class="field-error hidden" id="err-consent">Please agree to receive the report</div>
-          </label>
-        </div>
-        <div class="gate-actions">
-          <button class="btn-primary" id="btn-submit" onclick="submitContact()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
-            Send my report
-          </button>
+        <div id="hubspot-form-container"></div>
+        <div class="gate-actions" style="margin-top:16px">
           <button class="btn-ghost" onclick="resetTool()">Upload different file</button>
           <span class="gate-note">Your data is never stored. Report sent instantly.</span>
         </div>
@@ -343,6 +291,10 @@ input[type=checkbox]{width:16px;height:16px;margin-top:2px;accent-color:var(--om
 
 </div>
 
+<script charset="utf-8" type="text/javascript" src="https://js.hsforms.net/forms/embed/v2.js"></script>
+<script>
+const HUBSPOT_FORM={portalId:"3868364",formId:"68cef6d0-394c-48d2-b4c3-209c72d152c1",region:"na1"};
+</script>
 <script>
 // ── PromoStandards schema ───────────────────────────────────────────────────
 const PS_FIELDS = [
@@ -351,19 +303,19 @@ const PS_FIELDS = [
   {name:"productDescription",type:"String",required:false,example:"16oz ceramic mug...",note:"Long-form HTML or plain text",aliases:["product_description","description","desc","long_description","body"],channel_impact:["stores","presentations","websites","supplier"]},
   {name:"productBrand",type:"String",required:false,example:"BrandCo",note:"Brand/line name",aliases:["product_brand","brand","brand_name","manufacturer"],channel_impact:["search","api"]},
   {name:"productKeywords",type:"String",required:false,example:"mug, drinkware",note:"Comma-separated tags",aliases:["product_keywords","keywords","tags","search_tags"],channel_impact:["search"]},
-  {name:"productNumber",type:"String",required:true,example:"MUG-16",note:"Supplier item #",aliases:["product_number","item_number","sku","part_number","model_number","style"],channel_impact:["stores","api","presentations","supplier"]},
-  {name:"categoryCode",type:"String",required:true,example:"DRNK",note:"PS category taxonomy code",aliases:["category_code","cat_code","category_id","cat_id"],channel_impact:["search","api","supplier"]},
+  {name:"productNumber",type:"String",required:true,example:"MUG-16",note:"Supplier item #",aliases:["product_number","item_number","sku","part_number","model_number","style"],channel_impact:["stores","api","presentations"]},
+  {name:"categoryCode",type:"String",required:true,example:"DRNK",note:"PS category taxonomy code",aliases:["category_code","cat_code","category_id","cat_id"],channel_impact:["search","api"]},
   {name:"categoryName",type:"String",required:true,example:"Drinkware",note:"Human-readable category",aliases:["category_name","category","cat_name","product_category"],channel_impact:["search","stores","websites","supplier"]},
-  {name:"color",type:"String",required:false,example:"Red",note:"Color name or code",aliases:["color","colour","color_name","color_description"],channel_impact:["search","stores","supplier"]},
-  {name:"size",type:"String",required:false,example:"16oz",note:"Size descriptor",aliases:["size","size_name","size_description","dimensions"],channel_impact:["stores","api","supplier"]},
-  {name:"partId",type:"String",required:true,example:"ABC-1234-RED",note:"Configurable part ID",aliases:["part_id","part","variant_id","option_id","config_id"],channel_impact:["stores","api","presentations","supplier"]},
-  {name:"partDescription",type:"String",required:false,example:"Red 16oz mug",note:"Part-level description",aliases:["part_description","part_desc","variant_description"],channel_impact:["stores","supplier"]},
-  {name:"priceType",type:"Enum",required:true,example:"List",note:"Must be: List, Net, or Customer",aliases:["price_type","pricing_type","price_category"],allowed:["List","Net","Customer"],channel_impact:["stores","api","presentations","supplier"]},
+  {name:"color",type:"String",required:false,example:"Red",note:"Color name or code",aliases:["color","colour","color_name","color_description"],channel_impact:["search","stores"]},
+  {name:"size",type:"String",required:false,example:"16oz",note:"Size descriptor",aliases:["size","size_name","size_description","dimensions"],channel_impact:["stores","api"]},
+  {name:"partId",type:"String",required:true,example:"ABC-1234-RED",note:"Configurable part ID",aliases:["part_id","part","variant_id","option_id","config_id"],channel_impact:["stores","api","presentations"]},
+  {name:"partDescription",type:"String",required:false,example:"Red 16oz mug",note:"Part-level description",aliases:["part_description","part_desc","variant_description"],channel_impact:["stores"]},
+  {name:"priceType",type:"Enum",required:true,example:"List",note:"Must be: List, Net, or Customer",aliases:["price_type","pricing_type","price_category"],allowed:["List","Net","Customer"],channel_impact:["stores","api","presentations"]},
   {name:"price",type:"Decimal",required:true,example:"4.50",note:"Unit price (numeric)",aliases:["price","unit_price","cost","list_price","net_price","wholesale_price"],channel_impact:["stores","presentations","api","websites","supplier"]},
   {name:"priceCurrency",type:"Currency",required:true,example:"USD",note:"ISO 4217 currency code",aliases:["price_currency","currency","currency_code","currency_type"],channel_impact:["stores","api","supplier"]},
   {name:"minQuantity",type:"Integer",required:true,example:"72",note:"Minimum order quantity",aliases:["min_quantity","min_qty","minimum_quantity","minimum_order","moq","min_order"],channel_impact:["stores","api","presentations","supplier"]},
-  {name:"quantityIncrements",type:"Integer",required:false,example:"24",note:"Order quantity steps",aliases:["quantity_increments","qty_increment","order_increment","case_quantity"],channel_impact:["stores","api","supplier"]},
-  {name:"setupCharge",type:"Decimal",required:false,example:"45.00",note:"One-time setup fee",aliases:["setup_charge","setup_fee","setup_cost","run_charge"],channel_impact:["presentations","stores","supplier"]},
+  {name:"quantityIncrements",type:"Integer",required:false,example:"24",note:"Order quantity steps",aliases:["quantity_increments","qty_increment","order_increment","case_quantity"],channel_impact:["stores","api"]},
+  {name:"setupCharge",type:"Decimal",required:false,example:"45.00",note:"One-time setup fee",aliases:["setup_charge","setup_fee","setup_cost","run_charge"],channel_impact:["presentations","stores"]},
   {name:"imageURL",type:"URL",required:false,example:"https://example.com/img.jpg",note:"Primary product image URL",aliases:["image_url","image","image_link","photo_url","media_url","picture_url"],channel_impact:["search","stores","presentations","websites","api","supplier"]},
   {name:"productDataTimeStamp",type:"DateTime",required:true,example:"2025-06-01T00:00:00Z",note:"Last modified UTC (ISO 8601)",aliases:["product_data_timestamp","timestamp","last_updated","updated_at","modified_date","date_updated"],channel_impact:["api"]},
 ];
@@ -811,27 +763,38 @@ function showGate(result){
   document.getElementById("step-upload").classList.add("hidden");
   document.getElementById("step-gate").classList.remove("hidden");
   document.getElementById("gate-preview").innerHTML=renderGatePreview(result);
+  renderHubSpotForm();
 }
 
 function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
 
-// ── Contact submission ──────────────────────────────────────────────────────
-async function submitContact(){
-  const first=document.getElementById("f-first").value.trim();
-  const last=document.getElementById("f-last").value.trim();
-  const email=document.getElementById("f-email").value.trim();
-  const company=document.getElementById("f-company").value.trim();
-  const role=document.getElementById("f-role").value;
-  const consent=document.getElementById("f-consent").checked;
-  let valid=true;
-  const setErr=(id,show)=>{document.getElementById(id).classList.toggle("hidden",!show);if(show) valid=false;};
-  setErr("err-first",!first);
-  setErr("err-last",!last);
-  setErr("err-email",!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
-  setErr("err-company",!company);
-  setErr("err-consent",!consent);
-  if(!valid) return;
-  const contact={first,last,email,company,role};
+// ── HubSpot contact form ────────────────────────────────────────────────────
+function renderHubSpotForm(){
+  const container=document.getElementById("hubspot-form-container");
+  if(!container) return;
+  container.innerHTML="";
+  const create=()=>window.hbspt.forms.create({...HUBSPOT_FORM,target:"#hubspot-form-container"});
+  if(window.hbspt&&window.hbspt.forms){ create(); return; }
+  let tries=0;
+  const waitForHubSpot=setInterval(()=>{
+    tries++;
+    if(window.hbspt&&window.hbspt.forms){ clearInterval(waitForHubSpot); create(); }
+    else if(tries>50){ clearInterval(waitForHubSpot); container.innerHTML='<p style="font-size:12px;color:#C0492F">Unable to load the contact form. Please refresh and try again.</p>'; }
+  },100);
+}
+
+// HubSpot posts this message to the parent window once its iframe form submits successfully
+window.addEventListener("message",async event=>{
+  if(!event.data||event.data.type!=="hsFormCallback"||event.data.eventName!=="onFormSubmitted") return;
+  if(!currentResult) return;
+  const sv=(event.data.data&&event.data.data.submissionValues)||{};
+  const contact={
+    first:sv.firstname||"",
+    last:sv.lastname||"",
+    email:sv.email||"",
+    company:sv.company||"",
+    role:sv.jobtitle||sv.role||""
+  };
   document.getElementById("step-gate").classList.add("hidden");
   document.getElementById("step-sending").classList.remove("hidden");
   try{
@@ -840,7 +803,7 @@ async function submitContact(){
   }catch(e){
     showConfirm(contact,"<p style='color:#C0492F'>Error generating email preview. Your report has been sent.</p>");
   }
-}
+});
 
 // ── Email generation via Claude API ────────────────────────────────────────
 async function generateEmail(contact,result){
@@ -897,7 +860,7 @@ Use inline CSS only. Color palette: dark bg #212530, accent green #4AD000, green
 
 function showConfirm(contact,emailHtml){
   document.getElementById("step-sending").classList.add("hidden");
-  document.getElementById("confirm-email-text").textContent=contact.email;
+  document.getElementById("confirm-email-text").textContent=contact.email||"your inbox";
   const g=currentResult?grade(currentResult.scores.overall):{label:"Assessment"};
   document.getElementById("email-subject-bar").textContent=`Your PromoStandards data assessment — ${currentResult?.scores?.overall}/100 · ${g.label}`;
   document.getElementById("email-body-preview").innerHTML=emailHtml;
@@ -948,10 +911,7 @@ function resetTool(){
   document.getElementById("step-upload").classList.remove("hidden");
   document.getElementById("status-bar").classList.add("hidden");
   document.getElementById("file-input").value="";
-  ["f-first","f-last","f-email","f-company"].forEach(id=>document.getElementById(id).value="");
-  document.getElementById("f-role").value="";
-  document.getElementById("f-consent").checked=false;
-  ["err-first","err-last","err-email","err-company","err-consent"].forEach(id=>document.getElementById(id).classList.add("hidden"));
+  document.getElementById("hubspot-form-container").innerHTML="";
   const rs=document.getElementById("results-section");
   if(rs) rs.remove();
   window.scrollTo({top:0,behavior:"smooth"});
