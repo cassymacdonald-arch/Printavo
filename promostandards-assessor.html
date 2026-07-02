@@ -235,7 +235,7 @@ td.mono{font-family:'Courier New',monospace;font-size:10px;color:#444}
 
 <script charset="utf-8" type="text/javascript" src="https://js.hsforms.net/forms/embed/v2.js"></script>
 <script>
-const HUBSPOT_FORM={portalId:"3868364",formId:"68cef6d0-394c-48d2-b4c3-209c72d152c1",region:"na1"};
+const HUBSPOT_FORM={portalId:"3868364",formId:"8abbda43-bb32-4cbf-bc7e-aed9c2ef89b9",region:"na1"};
 </script>
 <script>
 // ── PromoStandards schema ───────────────────────────────────────────────────
@@ -728,6 +728,25 @@ function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
 // This field must be added to the form in the HubSpot portal — see project notes.
 const DETAILED_REPORT_FIELD_NAME="detailed_assessment_report";
 
+// Defensive: never let this throw, or it can abort HubSpot's own form handling.
+// $form's shape varies by embed version (raw element vs. jQuery-like collection) —
+// HubSpot's own docs confirm onFormReady/onFormSubmit both hand back a jQuery collection.
+function populateDetailedReportField($form){
+  try{
+    if(!currentResult) return;
+    const formEl=($form&&typeof $form.querySelector==="function")?$form
+      :($form&&typeof $form.get==="function")?$form.get(0)
+      :($form&&$form[0])?$form[0]:null;
+    if(!formEl) return;
+    const hidden=formEl.querySelector(`[name="${DETAILED_REPORT_FIELD_NAME}"]`);
+    if(!hidden) return;
+    const companyEl=formEl.querySelector('[name="company"]');
+    hidden.value=buildDetailedReportText(currentResult,companyEl?companyEl.value:"");
+  }catch(e){
+    console.error("PromoStandards assessor: failed to populate the detailed report field.",e);
+  }
+}
+
 function renderHubSpotForm(){
   const container=document.getElementById("hubspot-form-container");
   if(!container) return;
@@ -735,23 +754,12 @@ function renderHubSpotForm(){
   const create=()=>window.hbspt.forms.create({
     ...HUBSPOT_FORM,
     target:"#hubspot-form-container",
-    onFormSubmit:$form=>{
-      // Defensive: never let this hook throw, or it can abort HubSpot's own submit handling.
-      // $form's shape has varied across embed versions (raw element vs. jQuery-like wrapper).
-      try{
-        if(!currentResult) return;
-        const formEl=($form&&typeof $form.querySelector==="function")?$form
-          :($form&&typeof $form.get==="function")?$form.get(0)
-          :($form&&$form[0])?$form[0]:null;
-        if(!formEl) return;
-        const hidden=formEl.querySelector(`[name="${DETAILED_REPORT_FIELD_NAME}"]`);
-        if(!hidden) return;
-        const companyEl=formEl.querySelector('[name="company"]');
-        hidden.value=buildDetailedReportText(currentResult,companyEl?companyEl.value:"");
-      }catch(e){
-        console.error("PromoStandards assessor: onFormSubmit hook failed, submission continues without the detailed report field.",e);
-      }
-    }
+    // Fill the hidden field as soon as the form renders — not just on submit — so that if
+    // that field is ever marked required, HubSpot's pre-submit validation (which runs BEFORE
+    // onFormSubmit fires) never sees it as blank. onFormSubmit then refreshes it with
+    // whatever company name the visitor actually typed, right before the data is sent.
+    onFormReady:$form=>populateDetailedReportField($form),
+    onFormSubmit:$form=>populateDetailedReportField($form)
   });
   if(window.hbspt&&window.hbspt.forms){ create(); return; }
   let tries=0;
