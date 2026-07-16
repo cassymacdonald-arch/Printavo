@@ -8,18 +8,19 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --omg-green:#4AD000;--omg-green-ink:#09450D;--omg-slate:#212530;
+  --omg-green:#4AD000;--omg-green-ink:#09450D;--omg-green-soft:#A4E77F;--omg-slate:#212530;
   --omg-gray:#363A47;--omg-body:#41475A;--omg-mid:#909297;
   --omg-white:#FFFFFF;--omg-off:#F4F5F6;--omg-light:#E6E7E8;
   --omg-coral:#FD7E61;--omg-coral-ink:#C0492F;--omg-coral-pale:#F9EBE8;
   --omg-amber:#E3922B;--omg-amber-ink:#8A6212;--omg-amber-pale:#FBF1D8;
   --omg-blue:#293480;--omg-blue-pale:#D3D7E5;
-  --omg-green-pale:#E0F4D4;--omg-purple:#6868DD;--omg-chartreuse:#B3E354;
-  --r-card:12px;--r-pill:40px;--r-sm:8px;
+  --omg-green-pale:#E0F4D4;--omg-purple:#6868DD;--omg-purple-ink:#4A4AB0;--omg-purple-pale:#EBEBFF;
+  --omg-chartreuse:#B3E354;--omg-chartreuse-ink:#5E7E15;--omg-moss:#09450D;--omg-sage:#5A753B;
+  --r-card:16px;--r-pill:40px;--r-sm:8px;
   --shadow-card:0 2px 8px rgba(20,24,33,.08);
   --shadow-win:0 18px 44px rgba(20,24,33,.20);
 }
-body{font-family:'Poppins',system-ui,sans-serif;background:var(--omg-off);color:var(--omg-slate);font-size:14px;min-height:100vh;-webkit-font-smoothing:antialiased}
+body{font-family:'Avenir','Poppins',system-ui,-apple-system,sans-serif;background:var(--omg-off);color:var(--omg-slate);font-size:14px;min-height:100vh;-webkit-font-smoothing:antialiased}
 .app{max-width:980px;margin:0 auto;padding:28px 22px}
 
 /* Header */
@@ -27,10 +28,10 @@ body{font-family:'Poppins',system-ui,sans-serif;background:var(--omg-off);color:
 .header-topo{position:absolute;inset:0;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cpath d='M-100 200 Q100 120 300 200 Q500 280 700 200 Q900 120 1100 200' fill='none' stroke='%234AD000' stroke-width='1.5'/%3E%3Cpath d='M-100 250 Q150 170 350 250 Q550 330 750 250 Q950 170 1150 250' fill='none' stroke='%234AD000' stroke-width='1.5'/%3E%3Cpath d='M-100 150 Q100 70 300 150 Q500 230 700 150 Q900 70 1100 150' fill='none' stroke='%234AD000' stroke-width='1.5'/%3E%3C/svg%3E");background-size:cover;pointer-events:none}
 .header-inner{position:relative}
 .header-eyebrow{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--omg-green);margin-bottom:8px}
-.header-logo{display:block;height:28px;width:auto;margin-bottom:12px}
-.header h1{font-size:26px;font-weight:700;color:#fff;line-height:1.15;letter-spacing:-.02em;margin-bottom:6px}
-.header p{font-size:13px;color:#909297;max-width:560px;line-height:1.6}
-.header-rule{width:40px;height:3px;background:var(--omg-green);border-radius:2px;margin-bottom:14px}
+.header-logo{display:block;height:28px;width:auto;margin-bottom:14px}
+.header h1{font-size:30px;font-weight:700;color:#fff;line-height:1.14;letter-spacing:-.02em;margin-bottom:8px}
+.header p{font-size:14px;color:#c7cad2;max-width:580px;line-height:1.6}
+.header-rule{width:40px;height:3px;background:var(--omg-green);border-radius:2px;margin-bottom:16px}
 
 /* Impact banner */
 .impact-banner{background:var(--omg-green);border-radius:var(--r-card);padding:20px 24px;margin-bottom:22px;display:flex;align-items:flex-start;gap:16px}
@@ -42,52 +43,83 @@ body{font-family:'Poppins',system-ui,sans-serif;background:var(--omg-off);color:
 .impact-channel{font-size:10px;font-weight:700;padding:3px 10px;border-radius:40px;background:rgba(33,37,48,.12);color:var(--omg-slate);letter-spacing:.04em}
 
 /* Upload */
-.upload-zone{border:2px dashed var(--omg-light);border-radius:var(--r-card);background:var(--omg-white);padding:40px 28px;text-align:center;cursor:pointer;transition:all 150ms ease;margin-bottom:22px}
-.upload-zone:hover,.upload-zone.drag{border-color:var(--omg-green);background:var(--omg-green-pale)}
-.upload-zone.drag{border-style:solid}
-.upload-icon{width:44px;height:44px;margin:0 auto 12px;opacity:.4}
-.upload-title{font-size:14px;font-weight:600;color:var(--omg-slate);margin-bottom:4px}
-.upload-sub{font-size:12px;color:#909297}
-.upload-formats{display:flex;justify-content:center;gap:8px;margin-top:14px;flex-wrap:wrap}
-.fmt-pill{font-size:10px;font-weight:700;letter-spacing:.08em;padding:3px 10px;border-radius:40px;background:var(--omg-off);border:1px solid var(--omg-light);color:#909297}
+.upload-zone{border:2px dashed var(--omg-light);border-radius:18px;background:var(--omg-white);padding:48px 28px;text-align:center;cursor:pointer;transition:all 150ms ease;margin-bottom:22px;box-shadow:var(--shadow-win)}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--omg-green)}
+.upload-zone.drag{border-style:solid;background:var(--omg-green-pale)}
+.upload-icon-wrap{width:64px;height:64px;margin:0 auto 16px;border-radius:50%;background:var(--omg-green-pale);display:flex;align-items:center;justify-content:center}
+.upload-icon{width:28px;height:28px}
+.upload-title{font-size:17px;font-weight:700;color:var(--omg-slate);letter-spacing:-.01em;margin-bottom:6px}
+.upload-sub{font-size:13px;color:#909297}
+.upload-formats{display:flex;justify-content:center;gap:8px;margin-top:18px;flex-wrap:wrap}
+.fmt-pill{font-size:11px;font-weight:700;letter-spacing:.06em;padding:5px 13px;border-radius:40px;background:var(--omg-off);border:1px solid var(--omg-light);color:var(--omg-body)}
 
 /* Status */
-.status-bar{background:#fff;border:1px solid var(--omg-light);border-radius:var(--r-card);padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;color:var(--omg-slate)}
-.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.status-dot.processing{background:var(--omg-amber);animation:pulse 1s infinite}
-.status-dot.done{background:var(--omg-green)}
-.status-dot.error{background:var(--omg-coral)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.status-bar{background:#fff;border:1px solid var(--omg-light);border-radius:var(--r-card);padding:18px 22px;margin-bottom:16px;box-shadow:var(--shadow-card)}
+.status-bar-top{display:flex;align-items:center;gap:12px}
+.status-spinner{width:20px;height:20px;border-radius:50%;border:3px solid var(--omg-light);border-top-color:var(--omg-green);flex-shrink:0;animation:omgspin .8s linear infinite}
+.status-spinner.done{border-color:var(--omg-green);animation:none}
+.status-spinner.error{border-color:var(--omg-coral);border-top-color:var(--omg-coral);animation:none}
+.status-msg{font-size:13.5px;font-weight:700;color:var(--omg-slate)}
+.progress-steps{display:flex;gap:20px;flex-wrap:wrap;padding-left:32px;margin-top:14px}
+.progress-step{display:flex;align-items:center;gap:8px}
+.progress-step-dot{width:8px;height:8px;border-radius:50%;background:var(--omg-light);flex-shrink:0;transition:background .2s}
+.progress-step.active .progress-step-dot{background:var(--omg-green);animation:omgpulse 1s ease-in-out infinite}
+.progress-step.done .progress-step-dot{background:var(--omg-green)}
+.progress-step-label{font-size:11.5px;font-weight:600;color:var(--omg-mid)}
+.progress-step.active .progress-step-label,.progress-step.done .progress-step-label{color:var(--omg-slate)}
+@keyframes omgspin{to{transform:rotate(360deg)}}
+@keyframes omgpulse{0%,100%{opacity:1}50%{opacity:.35}}
 
 /* Score card */
-.score-card{background:var(--omg-slate);border-radius:var(--r-card);padding:24px 28px;margin-bottom:22px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
-.score-circle{width:96px;height:96px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid}
-.score-number{font-size:32px;font-weight:700;line-height:1}
-.score-grade{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:4px}
-.score-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:-.01em}
-.score-note{font-size:12px;color:#909297}
-.score-dims{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}
-.dim-block{background:rgba(255,255,255,.06);border-radius:8px;padding:10px 8px;text-align:center}
-.dim-val{font-size:16px;font-weight:700;margin-bottom:2px}
-.dim-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#909297;line-height:1.3}
-.progress-bar{height:4px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin-top:6px}
-.progress-fill{height:100%;border-radius:3px}
+.score-card{background:var(--omg-slate);border-radius:var(--r-card);padding:30px 32px;margin-bottom:22px;position:relative;overflow:hidden}
+.score-card-topo{position:absolute;inset:0;opacity:.1;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cpath d='M-100 200 Q100 120 300 200 Q500 280 700 200 Q900 120 1100 200' fill='none' stroke='%234AD000' stroke-width='1.5'/%3E%3Cpath d='M-100 250 Q150 170 350 250 Q550 330 750 250 Q950 170 1150 250' fill='none' stroke='%234AD000' stroke-width='1.5'/%3E%3C/svg%3E");background-size:cover;pointer-events:none}
+.score-card-inner{position:relative;display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center}
+.score-gauge{position:relative;width:150px;height:150px;flex-shrink:0}
+.score-gauge-value{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-gauge-num{font-size:44px;font-weight:700;color:#fff;line-height:1;letter-spacing:-.02em}
+.score-gauge-of{font-size:11px;color:#9a9eaa;font-weight:600;margin-top:2px}
+.score-tier-pill{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.03em;padding:6px 16px;border-radius:40px;margin-bottom:12px}
+.score-title{font-size:19px;font-weight:700;color:#fff;margin-bottom:4px;letter-spacing:-.01em}
+.score-note{font-size:12.5px;color:#9a9eaa;margin-bottom:20px}
+.score-dims{display:flex;flex-direction:column;gap:15px}
+.score-dim-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;gap:10px}
+.score-dim-label{font-size:12.5px;font-weight:700;color:#fff}
+.score-dim-weight{font-weight:500;color:#9a9eaa;font-size:11px}
+.score-dim-pct{font-size:13px;font-weight:700;flex-shrink:0}
+.score-dim-bar{height:8px;background:rgba(255,255,255,.12);border-radius:5px;overflow:hidden}
+.score-dim-fill{height:100%;border-radius:5px;transition:width .6s ease}
+
+/* Severity summary */
+.severity-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px}
+.severity-card{border-radius:14px;padding:20px 22px}
+.severity-num{font-size:32px;font-weight:700;line-height:1}
+.severity-num .of{font-size:15px;color:var(--omg-mid);font-weight:600}
+.severity-label{font-size:13px;font-weight:700;margin-top:8px}
+.severity-desc{font-size:11.5px;color:var(--omg-body);line-height:1.5;margin-top:5px}
+.severity-card.error{background:var(--omg-coral-pale);border:1px solid #f1cdc4}
+.severity-card.error .severity-num,.severity-card.error .severity-label{color:var(--omg-coral-ink)}
+.severity-card.warning{background:var(--omg-amber-pale);border:1px solid #efdcad}
+.severity-card.warning .severity-num,.severity-card.warning .severity-label{color:var(--omg-amber-ink)}
+.severity-card.info{background:var(--omg-green-pale);border:1px solid #cfe9c0}
+.severity-card.info .severity-num,.severity-card.info .severity-label{color:var(--omg-green-ink)}
+.severity-card.mapped{background:#fff;border:1px solid var(--omg-light)}
+.severity-card.mapped .severity-num,.severity-card.mapped .severity-label{color:var(--omg-slate)}
+@media(max-width:700px){.severity-summary{grid-template-columns:1fr 1fr}}
 
 /* Visibility impact */
-.visibility-panel{background:#fff;border:1px solid var(--omg-light);border-radius:var(--r-card);overflow:hidden;margin-bottom:22px;box-shadow:var(--shadow-card)}
-.visibility-header{background:var(--omg-slate);padding:14px 20px;display:flex;align-items:center;gap:10px;border-bottom:2px solid var(--omg-green)}
-.visibility-header h3{font-size:12px;font-weight:700;color:#fff;letter-spacing:.06em;text-transform:uppercase}
-.channel-impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
-.channel-impact{padding:16px 18px;border-right:1px solid var(--omg-light);border-bottom:1px solid var(--omg-light);position:relative}
-.channel-impact:nth-child(3n){border-right:none}
-.channel-impact:nth-child(n+4){border-bottom:none}
-.channel-impact-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.channel-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.channel-name{font-size:11px;font-weight:700;color:var(--omg-gray)}
-.channel-blocked{font-size:10px;color:var(--omg-coral-ink);font-weight:600;margin-bottom:4px}
-.channel-why{font-size:10px;color:var(--omg-mid);line-height:1.5}
-.channel-ok .channel-blocked{color:var(--omg-green-ink)}
-.channel-warn .channel-blocked{color:var(--omg-amber-ink)}
+.visibility-panel{position:relative;background:var(--omg-slate);border-radius:var(--r-card);overflow:hidden;margin-bottom:22px;padding:30px 32px}
+.visibility-panel-topo{position:absolute;inset:0;opacity:.1;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cpath d='M-100 150 Q100 70 300 150 Q500 230 700 150 Q900 70 1100 150' fill='none' stroke='%234AD000' stroke-width='1.5'/%3E%3Cpath d='M-100 250 Q150 170 350 250 Q550 330 750 250 Q950 170 1150 250' fill='none' stroke='%234AD000' stroke-width='1.5'/%3E%3C/svg%3E");background-size:cover;pointer-events:none}
+.visibility-header{position:relative;margin-bottom:20px}
+.visibility-eyebrow{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--omg-green-soft)}
+.visibility-header h3{position:relative;font-size:19px;font-weight:700;color:#fff;margin-top:6px;letter-spacing:-.01em}
+.channel-impact-grid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.channel-impact{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:18px}
+.channel-impact-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.channel-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.channel-name{font-size:12px;font-weight:700;color:#fff}
+.channel-blocked{font-size:11px;font-weight:700;margin-bottom:6px}
+.channel-why{font-size:11.5px;color:#c7cad2;line-height:1.5}
+.channel-stat{font-size:10px;color:#8b8f99;margin-top:6px;letter-spacing:.03em}
 
 /* Chips */
 .summary-row{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;align-items:center}
@@ -119,10 +151,10 @@ td.mono{font-family:'Courier New',monospace;font-size:10px;color:#444}
 .unknown-pill{font-size:10px;font-weight:600;padding:4px 10px;border-radius:5px;background:var(--omg-blue-pale);color:var(--omg-blue);border:1px solid #b8c0d8}
 
 /* Buttons */
-.btn-primary{display:inline-flex;align-items:center;gap:6px;font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;background:var(--omg-green);color:var(--omg-slate);border:none;border-radius:40px;padding:10px 22px;cursor:pointer;transition:opacity 150ms}
+.btn-primary{display:inline-flex;align-items:center;gap:6px;font-family:var(--omg-font,'Avenir'),'Poppins',sans-serif;font-size:12px;font-weight:700;letter-spacing:.04em;background:var(--omg-green);color:#fff;border:none;border-radius:40px;padding:11px 24px;cursor:pointer;transition:opacity 150ms}
 .btn-primary:hover{opacity:.88}
 .btn-primary:disabled{opacity:.5;cursor:not-allowed}
-.btn-ghost{display:inline-flex;align-items:center;gap:6px;font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;background:transparent;color:var(--omg-slate);border:1px solid var(--omg-light);border-radius:40px;padding:9px 20px;cursor:pointer;transition:all 150ms}
+.btn-ghost{display:inline-flex;align-items:center;gap:6px;font-family:var(--omg-font,'Avenir'),'Poppins',sans-serif;font-size:12px;font-weight:700;letter-spacing:.04em;background:transparent;color:var(--omg-slate);border:1px solid var(--omg-light);border-radius:40px;padding:10px 22px;cursor:pointer;transition:all 150ms}
 .btn-ghost:hover{border-color:var(--omg-green-ink)}
 .btn-row{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;align-items:center}
 
@@ -135,19 +167,19 @@ td.mono{font-family:'Courier New',monospace;font-size:10px;color:#444}
 .tab-panel.active{display:block}
 
 /* Contact gate */
-.gate-wrap{background:#fff;border:1px solid var(--omg-light);border-radius:var(--r-card);box-shadow:var(--shadow-win);overflow:hidden;margin-bottom:22px}
-.gate-header{background:var(--omg-slate);padding:22px 28px;border-bottom:2px solid var(--omg-green)}
-.gate-eyebrow{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--omg-green);margin-bottom:6px}
-.gate-header h2{font-size:18px;font-weight:700;color:#fff;letter-spacing:-.01em}
-.gate-header p{font-size:12px;color:#909297;margin-top:4px}
-.gate-body{padding:24px 28px}
-.gate-preview{background:var(--omg-off);border:1px solid var(--omg-light);border-radius:var(--r-sm);padding:16px 18px;margin-bottom:22px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.gate-wrap{background:#fff;border:1px solid var(--omg-light);border-radius:18px;box-shadow:var(--shadow-win);overflow:hidden;margin-bottom:22px}
+.gate-header{background:var(--omg-slate);padding:24px 30px;border-bottom:2px solid var(--omg-green)}
+.gate-eyebrow{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--omg-green-soft);margin-bottom:6px}
+.gate-header h2{font-size:19px;font-weight:700;color:#fff;letter-spacing:-.01em}
+.gate-header p{font-size:12.5px;color:#c7cad2;margin-top:4px}
+.gate-body{padding:26px 30px}
+.gate-preview{background:var(--omg-off);border:1px solid var(--omg-light);border-radius:12px;padding:18px 20px;margin-bottom:24px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
 .gate-preview-score{text-align:center;min-width:64px}
-.gate-preview-score .big{font-size:30px;font-weight:700}
+.gate-preview-score .big{font-size:32px;font-weight:700}
 .gate-preview-score .lbl{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#909297}
 .gate-divider{width:1px;height:52px;background:var(--omg-light)}
 .gate-preview-blur{font-size:11px;color:#909297;background:var(--omg-white);border:1px dashed var(--omg-light);border-radius:6px;padding:8px 12px;flex:1;min-width:180px}
-@media(max-width:560px){.score-dims{grid-template-columns:repeat(3,1fr)}.channel-impact-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.channel-impact-grid{grid-template-columns:1fr 1fr}.severity-summary{grid-template-columns:1fr}}
 .gate-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .gate-note{font-size:10px;color:#909297}
 
@@ -176,14 +208,12 @@ td.mono{font-family:'Courier New',monospace;font-size:10px;color:#444}
     </div>
     <div class="impact-banner-text">
       <strong>Bad data costs you buyers — across every channel.</strong>
-      <p>When your PromoStandards data has errors or missing fields, OMG can't display your products in search results, online stores, presentations, or distributor websites. Every gap is a sale you don't know you're missing.</p>
+      <p>When your PromoStandards data has errors or missing fields, OMG can't display your products in search results, online stores, or presentations. Every gap is a sale you don't know you're missing.</p>
       <div class="impact-channels">
         <span class="impact-channel">Product Search</span>
         <span class="impact-channel">Pop-up &amp; Company Stores</span>
         <span class="impact-channel">Presentations</span>
-        <span class="impact-channel">Distributor Websites</span>
         <span class="impact-channel">OneSource API (175+ partners)</span>
-        <span class="impact-channel">Supplier Website</span>
       </div>
     </div>
   </div>
@@ -192,10 +222,11 @@ td.mono{font-family:'Courier New',monospace;font-size:10px;color:#444}
   <div id="step-upload">
     <div class="upload-zone" id="upload-zone">
       <input type="file" id="file-input" accept=".csv,.json,.xml" style="display:none">
-      <svg class="upload-icon" viewBox="0 0 44 44" fill="none" stroke="#909297" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="6" y="6" width="32" height="32" rx="6"/>
-        <path d="M22 28V16M16 22l6-6 6 6"/>
-      </svg>
+      <div class="upload-icon-wrap">
+        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="#09450D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 16V4"/><path d="m6 10 6-6 6 6"/><path d="M4 20h16"/>
+        </svg>
+      </div>
       <div class="upload-title">Drop your product data file here</div>
       <div class="upload-sub">or click to browse — CSV, JSON, or XML</div>
       <div class="upload-formats">
@@ -205,8 +236,11 @@ td.mono{font-family:'Courier New',monospace;font-size:10px;color:#444}
       </div>
     </div>
     <div id="status-bar" class="status-bar hidden">
-      <span class="status-dot processing" id="status-dot"></span>
-      <span id="status-msg">Analysing…</span>
+      <div class="status-bar-top">
+        <span class="status-spinner" id="status-dot"></span>
+        <span class="status-msg" id="status-msg">Analysing…</span>
+      </div>
+      <div class="progress-steps" id="progress-steps"></div>
     </div>
   </div>
 
@@ -532,11 +566,11 @@ function analyseData({headers,rows}){
 }
 
 function grade(score){
-  if(score>=90) return{label:"Excellent",color:"#4AD000",ink:"#09450D"};
-  if(score>=75) return{label:"Good",color:"#B3E354",ink:"#5E7E15"};
-  if(score>=60) return{label:"Fair",color:"#E3922B",ink:"#8A6212"};
-  if(score>=40) return{label:"Poor",color:"#FD7E61",ink:"#C0492F"};
-  return{label:"Critical",color:"#E84040",ink:"#8B0000"};
+  if(score>=90) return{label:"Excellent",color:"#4AD000",ink:"#09450D",pale:"#E0F4D4"};
+  if(score>=75) return{label:"Good",color:"#B3E354",ink:"#5E7E15",pale:"#EEF7DC"};
+  if(score>=60) return{label:"Fair",color:"#E3922B",ink:"#8A6212",pale:"#FBF1D8"};
+  if(score>=40) return{label:"Poor",color:"#FD7E61",ink:"#C0492F",pale:"#F9EBE8"};
+  return{label:"Critical",color:"#E84040",ink:"#8B0000",pale:"#FBDBDB"};
 }
 
 // ── Render helpers ──────────────────────────────────────────────────────────
@@ -550,41 +584,59 @@ function renderScoreCard(result){
     {label:"Media quality",key:"mediaQuality",weight:"10%",tip:"% of rows with a valid, well-formed image URL"},
     {label:"Freshness",key:"dataFreshness",weight:"10%",tip:"% of rows with a valid, recent ISO 8601 timestamp"},
   ];
+  const r=66,C=2*Math.PI*r,off=C*(1-scores.overall/100);
   return`<div class="score-card">
-    <div class="score-circle" style="border-color:${g.color}">
-      <div class="score-number" style="color:${g.color}">${scores.overall}</div>
-      <div style="font-size:9px;color:#909297;letter-spacing:.1em">/&nbsp;100</div>
-    </div>
-    <div>
-      <div class="score-grade" style="color:${g.color}">${g.label}</div>
-      <div class="score-title">PromoStandards readiness score</div>
-      <div class="score-note">Composite across 5 dimensions · weighted by integration impact</div>
-      <div class="score-dims">${dims.map(d=>{const dg=grade(scores[d.key]);return`<div class="dim-block" title="${d.tip}"><div class="dim-val" style="color:${dg.color}">${scores[d.key]}</div><div class="dim-label">${d.label}</div><div class="progress-bar"><div class="progress-fill" style="width:${scores[d.key]}%;background:${dg.color}"></div></div><div style="font-size:8px;color:#666;margin-top:3px">${d.weight} weight</div></div>`;}).join("")}</div>
+    <div class="score-card-topo"></div>
+    <div class="score-card-inner">
+      <div class="score-gauge">
+        <svg width="150" height="150" viewBox="0 0 150 150">
+          <circle cx="75" cy="75" r="${r}" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="12"/>
+          <circle cx="75" cy="75" r="${r}" fill="none" stroke="${g.color}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off}" style="transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset .8s ease"/>
+        </svg>
+        <div class="score-gauge-value">
+          <div class="score-gauge-num">${scores.overall}</div>
+          <div class="score-gauge-of">/ 100</div>
+        </div>
+      </div>
+      <div>
+        <div class="score-tier-pill" style="background:${g.pale};color:${g.ink}">${g.label}</div>
+        <div class="score-title">PromoStandards readiness score</div>
+        <div class="score-note">Composite across 5 dimensions · weighted by integration impact</div>
+        <div class="score-dims">${dims.map(d=>{const dg=grade(scores[d.key]);return`<div class="score-dim-row" title="${d.tip}">
+          <div class="score-dim-top">
+            <div class="score-dim-label">${d.label} <span class="score-dim-weight">· ${d.weight} of score</span></div>
+            <div class="score-dim-pct" style="color:${dg.color}">${scores[d.key]}%</div>
+          </div>
+          <div class="score-dim-bar"><div class="score-dim-fill" style="width:${scores[d.key]}%;background:${dg.color}"></div></div>
+        </div>`;}).join("")}</div>
+      </div>
     </div>
   </div>`;
 }
 
 function renderVisibilityPanel(result){
   const{channelStatus}=result;
+  // On-dark-safe colors — the *-ink variants are tuned for text on light backgrounds
+  const onDark={blocked:"var(--omg-coral)",warn:"var(--omg-amber)",ok:"var(--omg-green-soft)"};
   const cells=CHANNELS.map(ch=>{
     const s=channelStatus[ch.key];
-    const cls=s.status==="blocked"?"channel-impact":s.status==="warn"?"channel-impact channel-warn":"channel-impact channel-ok";
     const statusLabel=s.status==="blocked"?"BLOCKED FROM THIS CHANNEL":s.status==="warn"?"REDUCED VISIBILITY":"ELIGIBLE";
-    const statusColor=s.status==="blocked"?"var(--omg-coral-ink)":s.status==="warn"?"var(--omg-amber-ink)":"var(--omg-green-ink)";
-    return`<div class="${cls}">
+    const statusColor=onDark[s.status];
+    return`<div class="channel-impact">
       <div class="channel-impact-top">
         <span class="channel-dot" style="background:${ch.color}"></span>
         <span class="channel-name">${ch.name}</span>
       </div>
       <div class="channel-blocked" style="color:${statusColor}">${statusLabel}</div>
       <div class="channel-why">${s.reason}</div>
-      <div style="font-size:9px;color:var(--omg-mid);margin-top:4px;letter-spacing:.04em">${ch.stat}</div>
+      <div class="channel-stat">${ch.stat}</div>
     </div>`;
   }).join("");
   return`<div class="visibility-panel">
+    <div class="visibility-panel-topo"></div>
     <div class="visibility-header">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--omg-green)" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-      <h3>Buyer visibility impact — where you're being seen (or not)</h3>
+      <div class="visibility-eyebrow">Buyer visibility impact</div>
+      <h3>Where you're being seen — and where you're not</h3>
     </div>
     <div class="channel-impact-grid">${cells}</div>
   </div>`;
@@ -672,8 +724,10 @@ function switchTab(key){
 }
 
 // ── File processing ─────────────────────────────────────────────────────────
+const PROGRESS_STEPS=["Reading file","Matching columns to PromoStandards fields","Validating rows against field rules","Scoring across 5 dimensions"];
+
 async function processFile(file){
-  showStatus("processing",`Reading ${file.name}…`);
+  showStatus("processing",0,`Reading ${file.name}…`);
   try{
     const text=await file.text();
     const ext=file.name.split(".").pop().toLowerCase();
@@ -687,32 +741,37 @@ async function processFile(file){
     // so a genuine multi-step assessment (column matching, per-row validation, scoring
     // across 5 dimensions) doesn't flash by too fast to register.
     await sleep(400);
-    showStatus("processing",`Matching ${parsed.headers.length} columns to PromoStandards fields…`);
+    showStatus("processing",1,`Matching ${parsed.headers.length} columns to PromoStandards fields…`);
     await sleep(550);
-    showStatus("processing",`Validating ${parsed.rows.length} row${parsed.rows.length!==1?"s":""} against field rules…`);
+    showStatus("processing",2,`Validating ${parsed.rows.length} row${parsed.rows.length!==1?"s":""} against field rules…`);
     await sleep(650);
-    showStatus("processing","Scoring across required fields, format accuracy, coverage, media, and freshness…");
+    showStatus("processing",3,"Scoring across required fields, format accuracy, coverage, media, and freshness…");
     await sleep(500);
 
     const result=analyseData(parsed);
     result.fileName=file.name;
     currentResult=result;
 
-    showStatus("done","Analysis complete");
+    showStatus("done",4,"Analysis complete");
     await sleep(300);
     showGate(result);
   }catch(err){
-    showStatus("error",err.message);
+    showStatus("error",-1,err.message);
   }
 }
 
-function showStatus(type,msg){
+function showStatus(type,stepIndex,msg){
   const bar=document.getElementById("status-bar");
   const dot=document.getElementById("status-dot");
   const msgEl=document.getElementById("status-msg");
+  const stepsEl=document.getElementById("progress-steps");
   bar.classList.remove("hidden");
-  dot.className="status-dot "+type;
+  dot.className="status-spinner "+type;
   msgEl.textContent=msg;
+  stepsEl.innerHTML = stepIndex<0 ? "" : PROGRESS_STEPS.map((label,i)=>{
+    const state = i<stepIndex ? "done" : i===stepIndex ? "active" : "todo";
+    return `<div class="progress-step ${state}"><span class="progress-step-dot"></span><span class="progress-step-label">${label}</span></div>`;
+  }).join("");
 }
 
 function showGate(result){
@@ -872,11 +931,27 @@ function renderSupplierSnapshot(result){
       <span style="font-size:11px;color:#909297">Analysed: ${result.fileName} · ${result.totalRows} row${result.totalRows!==1?"s":""}</span>
     </div>
     ${renderScoreCard(result)}
-    <div class="summary-row">
-      <span class="chip red">🔴 ${result.errors.length} error${result.errors.length!==1?"s":""}</span>
-      <span class="chip amber">🟡 ${result.warnings.length} warning${result.warnings.length!==1?"s":""}</span>
-      <span class="chip blue">🔵 ${result.infos.length} info</span>
-      <span class="chip green">✓ ${result.mappedPSFields.size} PS fields mapped</span>
+    <div class="severity-summary">
+      <div class="severity-card error">
+        <div class="severity-num">${result.errors.length}</div>
+        <div class="severity-label">🔴 Error${result.errors.length!==1?"s":""}</div>
+        <div class="severity-desc">Will break an integration — missing required fields or wrong data types.</div>
+      </div>
+      <div class="severity-card warning">
+        <div class="severity-num">${result.warnings.length}</div>
+        <div class="severity-label">🟡 Warning${result.warnings.length!==1?"s":""}</div>
+        <div class="severity-desc">Won't break it but will cause problems — bad formats, thin or stale content.</div>
+      </div>
+      <div class="severity-card info">
+        <div class="severity-num">${result.infos.length}</div>
+        <div class="severity-label">🔵 Suggestion${result.infos.length!==1?"s":""}</div>
+        <div class="severity-desc">Unmapped or custom columns and minor formatting notes worth a look.</div>
+      </div>
+      <div class="severity-card mapped">
+        <div class="severity-num">${result.mappedPSFields.size}<span class="of"> / ${PS_FIELDS.length}</span></div>
+        <div class="severity-label">✓ PS fields mapped</div>
+        <div class="severity-desc">Columns successfully matched to PromoStandards Product Data fields.</div>
+      </div>
     </div>
     ${renderVisibilityPanel(result)}
   `;
