@@ -38,6 +38,26 @@ body{font-family:'Avenir','Poppins',system-ui,-apple-system,sans-serif;backgroun
 .header p{font-size:14px;color:#c7cad2;max-width:580px;line-height:1.6}
 .header-rule{width:40px;height:3px;background:var(--omg-green);border-radius:2px;margin-bottom:16px}
 
+/* Upload hero (full-bleed — lives outside .app, its own dark landing screen) */
+.upload-hero{position:relative;background:var(--omg-slate);overflow:hidden;min-height:100vh}
+.upload-hero-topo{position:absolute;inset:0;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cpath d='M-100 200 Q100 120 300 200 Q500 280 700 200 Q900 120 1100 200' fill='none' stroke='%234AD000' stroke-width='1.5'/%3E%3Cpath d='M-100 250 Q150 170 350 250 Q550 330 750 250 Q950 170 1150 250' fill='none' stroke='%234AD000' stroke-width='1.5'/%3E%3Cpath d='M-100 150 Q100 70 300 150 Q500 230 700 150 Q900 70 1100 150' fill='none' stroke='%234AD000' stroke-width='1.5'/%3E%3C/svg%3E");background-size:cover;pointer-events:none}
+.upload-hero-inner{position:relative;max-width:1080px;margin:0 auto;padding:30px 36px 80px}
+.upload-topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.upload-hero-logo{height:26px;width:auto;display:block}
+.upload-hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--omg-green-soft)}
+.upload-hero-content{display:flex;flex-direction:column;align-items:center;text-align:center;max-width:760px;margin:64px auto 0}
+.upload-hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(74,208,0,.12);border:1px solid rgba(74,208,0,.4);color:var(--omg-green-soft);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:7px 16px;border-radius:40px}
+.upload-hero-content h1{font-size:44px;line-height:1.1;letter-spacing:-.02em;font-weight:700;color:#fff;margin:22px 0 0}
+.upload-hero-content p{font-size:16px;line-height:1.6;color:#c7cad2;margin:18px auto 0;max-width:600px}
+.upload-zone-wrap{max-width:680px;margin:44px auto 0}
+.upload-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:56px}
+.upload-step{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:20px}
+.upload-step-eyebrow{font-size:11px;font-weight:700;color:var(--omg-green);letter-spacing:.1em}
+.upload-step-title{font-size:15px;font-weight:700;color:#fff;margin-top:9px}
+.upload-step-desc{font-size:12.5px;line-height:1.5;color:#9a9eaa;margin-top:5px}
+@media(max-width:800px){.upload-steps{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.upload-steps{grid-template-columns:1fr}.upload-hero-content h1{font-size:32px}}
+
 /* Impact banner */
 .impact-banner{background:var(--omg-green);border-radius:var(--r-card);padding:20px 24px;margin-bottom:22px;display:flex;align-items:flex-start;gap:16px}
 .impact-banner-icon{width:44px;height:44px;background:rgba(33,37,48,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
@@ -193,7 +213,74 @@ td.mono{font-family:'Courier New',monospace;font-size:10px;color:#444}
 </style>
 </head>
 <body>
-<div class="app" id="app">
+
+<!-- STEP 1: Upload — full-bleed landing screen, lives outside .app -->
+<div id="step-upload">
+  <div class="upload-hero">
+    <div class="upload-hero-topo"></div>
+    <div class="upload-hero-inner">
+      <div class="upload-topbar">
+        <img class="upload-hero-logo" src="https://info.ordermygear.com/hubfs/Imported%20sitepage%20images/4c762175-52d0-e71a-b561-b8a727eba51e.png" alt="OrderMyGear">
+        <div class="upload-hero-eyebrow">PromoStandards readiness check</div>
+      </div>
+      <div class="upload-hero-content">
+        <span class="upload-hero-pill">Free instant assessment</span>
+        <h1>Is your product data<br>ready to sell?</h1>
+        <p>Upload your product data export and get an instant PromoStandards readiness score. We'll show you exactly what's blocking buyers and distributors from finding your products.</p>
+      </div>
+
+      <div class="upload-zone-wrap">
+        <div class="upload-zone" id="upload-zone">
+          <input type="file" id="file-input" accept=".csv,.json,.xml" style="display:none">
+          <div class="upload-icon-wrap">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="#09450D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 16V4"/><path d="m6 10 6-6 6 6"/><path d="M4 20h16"/>
+            </svg>
+          </div>
+          <div class="upload-title">Drop your product data file here</div>
+          <div class="upload-sub">or click to browse — CSV, JSON, or XML</div>
+          <div class="upload-formats">
+            <span class="fmt-pill">CSV</span>
+            <span class="fmt-pill">JSON</span>
+            <span class="fmt-pill">XML</span>
+          </div>
+        </div>
+        <div id="status-bar" class="status-bar hidden">
+          <div class="status-bar-top">
+            <span class="status-spinner" id="status-dot"></span>
+            <span class="status-msg" id="status-msg">Analysing…</span>
+          </div>
+          <div class="progress-steps" id="progress-steps"></div>
+        </div>
+      </div>
+
+      <div class="upload-steps">
+        <div class="upload-step">
+          <div class="upload-step-eyebrow">STEP 1</div>
+          <div class="upload-step-title">Any format, as-is</div>
+          <div class="upload-step-desc">Upload however you export your data. We detect the structure automatically.</div>
+        </div>
+        <div class="upload-step">
+          <div class="upload-step-eyebrow">STEP 2</div>
+          <div class="upload-step-title">Auto-map to PS</div>
+          <div class="upload-step-desc">Fuzzy matching aligns your column names to the 20 PromoStandards Product Data fields.</div>
+        </div>
+        <div class="upload-step">
+          <div class="upload-step-eyebrow">STEP 3</div>
+          <div class="upload-step-title">Validate &amp; score</div>
+          <div class="upload-step-desc">Required fields, data types, formats and cross-field logic — graded 0–100 across 5 dimensions.</div>
+        </div>
+        <div class="upload-step">
+          <div class="upload-step-eyebrow">STEP 4</div>
+          <div class="upload-step-title">See your snapshot</div>
+          <div class="upload-step-desc">Get an instant score and channel visibility breakdown, then share your details for the full report.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="app hidden" id="app">
 
   <!-- Header -->
   <div class="header">
@@ -220,32 +307,6 @@ td.mono{font-family:'Courier New',monospace;font-size:10px;color:#444}
         <span class="impact-channel">Presentations</span>
         <span class="impact-channel">OneSource API (175+ partners)</span>
       </div>
-    </div>
-  </div>
-
-  <!-- STEP 1: Upload -->
-  <div id="step-upload">
-    <div class="upload-zone" id="upload-zone">
-      <input type="file" id="file-input" accept=".csv,.json,.xml" style="display:none">
-      <div class="upload-icon-wrap">
-        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="#09450D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 16V4"/><path d="m6 10 6-6 6 6"/><path d="M4 20h16"/>
-        </svg>
-      </div>
-      <div class="upload-title">Drop your product data file here</div>
-      <div class="upload-sub">or click to browse — CSV, JSON, or XML</div>
-      <div class="upload-formats">
-        <span class="fmt-pill">CSV</span>
-        <span class="fmt-pill">JSON</span>
-        <span class="fmt-pill">XML</span>
-      </div>
-    </div>
-    <div id="status-bar" class="status-bar hidden">
-      <div class="status-bar-top">
-        <span class="status-spinner" id="status-dot"></span>
-        <span class="status-msg" id="status-msg">Analysing…</span>
-      </div>
-      <div class="progress-steps" id="progress-steps"></div>
     </div>
   </div>
 
@@ -787,6 +848,7 @@ function showStatus(type,stepIndex,msg){
 
 function showGate(result){
   document.getElementById("step-upload").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
   document.getElementById("step-gate").classList.remove("hidden");
   document.getElementById("gate-preview").innerHTML=renderGatePreview(result);
   renderHubSpotForm();
@@ -1006,6 +1068,7 @@ function renderResultsSection(result){
 // ── Reset ───────────────────────────────────────────────────────────────────
 function resetTool(){
   currentResult=null;
+  document.getElementById("app").classList.add("hidden");
   document.getElementById("step-gate").classList.add("hidden");
   const snapshot=document.getElementById("step-snapshot");
   snapshot.classList.add("hidden");
